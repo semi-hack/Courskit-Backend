@@ -1,41 +1,39 @@
 const express = require('express');
 const mongoose = require("mongoose");
 
-const Lecturer = require('../models/lecturer');
+const Period = require('../models/period');
 
 
-const createLecturer = async (req, res) => {
+const createPeriod = async (req, res) => {
     const {
-        name,
-        email,
-        unavailablePeriods,
-        courses
+        course,
+        startTime,
+        endTime,
     } = req.body
 
-    const lecturer = await Lecturer.create({
-            name,
-            email,
-            unavailablePeriods,
-            courses
+    const Period = await Lecturer.create({
+            course,
+            startTime,
+            endTime,
         });
 
-        if (!lecturer) {
+        if (!Period) {
             res.status(400).json({
                 success: false,
-                message: "lecturer not created"
+                message: "period not created"
             });
         }
         res.json({
             success: true,
-            message: "lecturer created",
-            data: lecturer
+            message: "period created",
+            data: Period
         });
     
 }
 
-const getAllLecturer = async (req, res) => {
+const getAllPeriods = async (req, res) => {
     try {
-        const data = await Lecturer.find({})
+        const data = await Period.find({})
         if(!data) {
             res.status(404).json({
                 success: false,
@@ -54,12 +52,12 @@ const getAllLecturer = async (req, res) => {
     };
 }
 
-// delete a lecturer
-const Deletelecturer = async (req, res) => {
+// delete a period
+const DeletePeriod = async (req, res) => {
 
     const { id } = req.body;
     try {
-        const data = await Room.findOneAndDelete({ _id: req.body.id});
+        const data = await Period.findOneAndDelete({ _id: req.body.id});
         if (!data) {
             res.status(404).json({ success: false, message: 'not found' });
             return;
@@ -70,4 +68,4 @@ const Deletelecturer = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createLecturer, getAllLecturer, Deletelecturer }
+module.exports = { createPeriod, getAllPeriods, DeletePeriod }

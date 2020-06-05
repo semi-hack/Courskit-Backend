@@ -4,7 +4,7 @@ const Course = require("../models/course");
 
 // create a Room
 const createCourse = async (req, res) => {
-  const { name, capacity } = req.body;
+  const { name, code, unit, professor, venue } = req.body;
 
   try {
     const existingcourse = await Course.findOne({ name: req.body.name }).exec();
@@ -16,7 +16,10 @@ const createCourse = async (req, res) => {
 
     const course = new Course({
         name,
-        capacity
+        code,
+        unit,
+        professor,
+        venue
     });
     await course.save()
     return res.json({
@@ -47,7 +50,7 @@ const GetAllCourses = async (req, res) => {
 
 //update a course
 const UpdateCourse = async (req, res) => {
-    const UpdateCourse = await Course.findOneAndUpdate(req.params._id, {$set: reqbody});
+    const UpdateCourse = await Course.findOneAndUpdate(req.params._id, {$set: req.body});
     if (err) {
         res.status(400).json({
             message: "failed to update"
@@ -63,14 +66,18 @@ const UpdateCourse = async (req, res) => {
 
 // delete a Course
 const DeleteCourse = async (req, res) => {
-  const course = await Course.findOneAndDelete({ name: req.params.name });
-  if (course) {
-    return res.status(200);
-  } else {
-    return res.status(404).json({
-      error: `No room with name ${req.params.name} found`,
-    });
-  }
-};
 
-module.exports = { createRoom, GetAllRooms, updateRoom, DeleteRoom };
+    const { id } = req.body;
+    try {
+        const data = await Room.findOneAndDelete({ _id: req.body.id});
+        if (!data) {
+            res.status(404).json({ success: false, message: 'not found' });
+            return;
+        }
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error)
+    }
+};
+module.exports = { createCourse, GetAllCourses, UpdateCourse, DeleteCourse };

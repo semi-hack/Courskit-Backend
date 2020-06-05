@@ -6,15 +6,22 @@ const CourseSchema = new Schema({
         type: String,
         required: true,
     },
-    Email: {
+    code: {
         type: String,
         required: true,
     },
-    unavailablePeriods: {
+    unit: {
+        type: Number,
+        required: true
+    },
+    professor: {
         type: String,
         required: true
     },
-    Courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
+    venue: {
+        type: String,
+        required: true
+    }
 })
 
 const Course = mongoose.model("Course", CourseSchema)
