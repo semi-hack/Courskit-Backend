@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb://localhost:27017/Timetable'
+const URI = "mongodb+srv://admin:admin@cluster0-nncaq.mongodb.net/<dbname>?retryWrites=true&w=majority"
 
 const options = {
     useNewUrlParser: true,
@@ -8,4 +8,10 @@ const options = {
     useUnifiedTopology: true,
 }
 
-mongoose.connect(url, options);
+const connectDB = async () => {
+    await mongoose.connect(URI, options);
+    console.log('DB connected...!')
+}
+
+
+module.exports = connectDB;

@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./config/db');
+const connectDB = require('./config/db');
 const router = require('./routes/routes');
 
 const app = express()
-
+connectDB();
 const PORT = 5000
 
 app.use(bodyParser.urlencoded({ extended: true }));
