@@ -4,6 +4,7 @@ const roomController = require('../controller/Room_controller');
 const LecturerController = require('../controller/lecturer_controller');
 const courseController = require('../controller/course_controller');
 const periodController = require('../controller/period_controller');
+const userController = require('../controller/user');
 
 
 
@@ -29,6 +30,7 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 
 
 //User Routes
-
+router.post('/signup', userController.signup);
+router.post('/login', userController.login);
 
 module.exports = router
