@@ -36,6 +36,12 @@ const UserSchema = new Schema({
         type: String,
         enum: ["basic", "admin"]
     },
+    resetToken: {
+        type: String
+    },
+    // expireToken: {
+    //     type: Date
+    // }
 })
 
 UserSchema.pre('save', async function save(next) {

@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-//const { reject } = require('bcrypt/promises');
 const { secret } = require('./helper');
 
 const verifyToken = () => {
