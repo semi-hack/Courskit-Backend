@@ -15,8 +15,12 @@ const ClassSchema = new Schema({
         type: String,
         required: true
     },
-    population: {
+    Population: {
         type: Number,
+        required: true
+    },
+    UnavailableRooms: {
+        type: String,
         required: true
     }
 });
