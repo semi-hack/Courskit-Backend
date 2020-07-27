@@ -14,8 +14,14 @@ const CourseSchema = new Schema({
         type: Number,
         required: true
     },
+    day: {
+        type: String
+    },
+    description: {
+        type: String
+    },
     lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: null},
-    Venue: {type: Schema.Types.ObjectId, ref: 'Room'},
+    venue: {type: Schema.Types.ObjectId, ref: 'room'},
     time: {
         type: String,
         required: true

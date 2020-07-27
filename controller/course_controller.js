@@ -4,7 +4,7 @@ const Course = require("../models/course");
 
 // create a Room
 const createCourse = async (req, res) => {
-  const { name, code, unit, time } = req.body;
+  const { name, code, unit, time, day, venue, description } = req.body;
 
   try {
     const existingcourse = await Course.findOne({ name: req.body.name }).exec();
@@ -18,13 +18,21 @@ const createCourse = async (req, res) => {
         name,
         code,
         unit,
+        day,
         time,
-        venue
+        venue,
+        description,
     });
-    await course.save()
+    await course.save(() => {
+      Course.findOne({name : req.body.name}).populate('venue')
+      .exec((err, course) => {
+        console.log(course.venue.name)
+      });
+    });
+
     return res.json({
         success: true,
-        data: course
+        data: course,
     });
   } catch (error) {
     return res.status(500).json({
@@ -36,7 +44,7 @@ const createCourse = async (req, res) => {
 
 // get all courses
 const GetAllCourses = async (req, res) => {
-  const courses = await Course.find({});
+  const courses = await Course.find({}).populate('venue');
   if (courses) {
     return res.status(200).json({
         success: true,
