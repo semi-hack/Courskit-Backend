@@ -6,6 +6,18 @@ const LecturerSchema = new Schema({
         type: String,
         required: true,
     },
+    image: {
+        type: String
+    },
+    ranking: {
+        type: String
+    },
+    office_no: {
+        type: Number
+    },
+    phone_no: {
+        type: Number
+    },
     Email: {
         type: String,
         required: true,
@@ -19,4 +31,4 @@ const LecturerSchema = new Schema({
 
 const Lecturer = mongoose.model("Lecturer", LecturerSchema)
 
-module.exports = { Lecturer }
+module.exports = Lecturer 

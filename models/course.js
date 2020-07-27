@@ -14,20 +14,14 @@ const CourseSchema = new Schema({
         type: Number,
         required: true
     },
-    professor: {
-        type: String,
-        required: true
-    },
-    venue: {
-        type: String,
-        required: true
-    },
+    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: null},
+    Venue: {type: Schema.Types.ObjectId, ref: 'Room'},
     time: {
-        type: Date,
+        type: String,
         required: true
     },
 })
 
 const Course = mongoose.model("Course", CourseSchema)
 
-module.exports = { Course }
+module.exports = Course 

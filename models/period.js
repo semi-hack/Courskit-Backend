@@ -3,14 +3,14 @@ const Schema = mongoose.Schema
 
 const PeriodSchema = new Schema({
     startTime: {
-        type: Date
+        type: String
     },
     endTime: {
-        type: Date
+        type: String
     },
-    course: [{ type: Schema.Types.ObjectId, ref: 'Course'}]
+    course: { type: Schema.Types.ObjectId, ref: 'Course'}
 });
 
-const Period = mongoose.model('Period', PeriodSchema)
+const Period = mongoose.model("Period", PeriodSchema)
 
-module.exports = { Period };
+module.exports = Period

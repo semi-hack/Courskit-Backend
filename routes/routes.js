@@ -22,7 +22,7 @@ router.get('/Admin/getlecturer', LecturerController.getAllLecturer);
 router.delete('/Admin/lecturer/delete', LecturerController.Deletelecturer);
 
 
-router.post('/api/Admin/course', courseController.createCourse);
+router.post('/Admin/course', courseController.createCourse);
 router.get('/Admin/getCourse', courseController.GetAllCourses);
 router.patch('/Admin/course/update', courseController.UpdateCourse);
 router.delete('/Admin/course/delete', courseController.DeleteCourse);

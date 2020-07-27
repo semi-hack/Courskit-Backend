@@ -4,7 +4,7 @@ const Course = require("../models/course");
 
 // create a Room
 const createCourse = async (req, res) => {
-  const { name, code, unit, professor, venue } = req.body;
+  const { name, code, unit, time } = req.body;
 
   try {
     const existingcourse = await Course.findOne({ name: req.body.name }).exec();
@@ -18,7 +18,7 @@ const createCourse = async (req, res) => {
         name,
         code,
         unit,
-        professor,
+        time,
         venue
     });
     await course.save()

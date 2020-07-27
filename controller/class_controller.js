@@ -26,7 +26,7 @@ const createclass = async (req, res) => {
         return res.json({
             success: true,
             data: class
-      });
+        });
     } catch (error) {
         return res.status(500).json({
             error: 'There was an error.',
