@@ -45,6 +45,7 @@ const GetAllRooms = async (req, res) => {
   }
 };
 
+
 //update a room
 const updateRoom = async (req, res) => {
     const UpdateRoom = await Room.findOneAndUpdate(req.params._id, {$set: reqbody});

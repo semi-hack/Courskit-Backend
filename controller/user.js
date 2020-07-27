@@ -39,6 +39,38 @@ const login = async (req, res) => {
   }
 };
 
+const adminlogin = async (req, res) => {
+  const { adminNumber, password } = req.body;
+  try {
+    const user = await User.findOne({ adminNumber: req.body.adminNumber }).exec();
+    if (!user) {
+      return res.status(404).json({
+        error: "user not found",
+        success: false,
+      });
+    }
+
+    user.comparePassword(req.body.password, (err, match) => {
+      if (!match) {
+        return response
+          .status(400)
+          .send({ message: "The password is invalid" });
+      }
+    });
+
+    const token = jwt.sign({ matric: user.matric }, secret);
+    return res.json({
+      success: true,
+      data: token,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      err: "error login in",
+      success: false,
+    });
+  }
+};
+
 const signup = async (req, res) => {
   const {
     firstname,

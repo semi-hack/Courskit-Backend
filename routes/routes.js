@@ -7,6 +7,9 @@ const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
 
 
+router.get('/', (req, res) => {
+    res.send("welcome to home page");
+})
 
 //Admin Routes
 router.post('/Admin/room', roomController.createRoom);
