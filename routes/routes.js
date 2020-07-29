@@ -35,6 +35,7 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 //User Routes
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
+router.get('/user', userController.getUser);
 router.post('/forgotPassword', userController.forgotPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)

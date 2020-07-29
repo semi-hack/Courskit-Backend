@@ -26,7 +26,7 @@ const login = async (req, res) => {
       }
     });
 
-    const token = jwt.sign({ matric: user.matric }, secret);
+    const token = jwt.sign({ _id: user._id }, secret);
     return res.json({
       success: true,
       data: token,
@@ -169,4 +169,20 @@ const forgotPassword = (req, res) => {
 //   }
 // }
 
-module.exports = { signup, login, forgotPassword };
+const getUser = (req, res) => {
+  const token = req.headers.token;
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) return res.status(401).json({
+      title: "unauthorized"
+    })
+    User.findOne({_id: decoded._id}, (err, user) => {
+      if(err) return console.log(err)
+      return res.status(200).json({
+        title: "user granted",
+        user
+      })
+    })
+  })
+}
+
+module.exports = { signup, login, forgotPassword, getUser };
