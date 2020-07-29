@@ -9,14 +9,23 @@ const createLecturer = async (req, res) => {
         name,
         email,
         unavailablePeriods,
-        courses
+        courses,
+        education_bg,
+        phone_no,
+        office_no,
+        ranking
+
     } = req.body
 
     const lecturer = await Lecturer.create({
             name,
             email,
             unavailablePeriods,
-            courses
+            courses,
+            education_bg,
+            phone_no,
+            office_no,
+            ranking
         });
 
         if (!lecturer) {
@@ -54,6 +63,29 @@ const getAllLecturer = async (req, res) => {
     };
 }
 
+const getLecturerById = async (req, res) => {
+    const { id } = req.body;
+
+    try {
+        const data = await Lecturer.findOne({_id:req.body.id})
+        if(!data) {
+            res.status(404).json({
+                success: false,
+                message: "not found"
+            });
+            return
+        } else {
+            res.status(200).json({
+                success: true,
+                data
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).json(error);
+    };
+}
+
 // delete a lecturer
 const Deletelecturer = async (req, res) => {
 
@@ -70,4 +102,4 @@ const Deletelecturer = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createLecturer, getAllLecturer, Deletelecturer }
+module.exports = { createLecturer, getAllLecturer, getLecturerById,  Deletelecturer }

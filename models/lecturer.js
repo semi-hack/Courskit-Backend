@@ -13,20 +13,25 @@ const LecturerSchema = new Schema({
         type: String
     },
     office_no: {
-        type: Number
-    },
-    phone_no: {
-        type: Number
-    },
-    Email: {
-        type: String,
-        required: true,
-    },
-    unavailablePeriods: {
         type: String,
         required: true
     },
-    Courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
+    phone_no: {
+        type: Number,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    education_bg: {
+        type: String,
+        required: true
+    },
+    unavailablePeriods: {
+        type: String,
+    },
+    Courses: [{ type: Schema.Types.ObjectId, ref: 'Course', default: null }]
 })
 
 const Lecturer = mongoose.model("Lecturer", LecturerSchema)

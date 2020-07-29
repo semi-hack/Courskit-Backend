@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
-const { transporter } = require("../config/nodemailer");
+const { transporter }  = require("../config/nodemailer");
 const crypto = require("crypto");
-const { doesNotMatch } = require("assert");
+//const { doesNotMatch } = require("assert");
 
 const login = async (req, res) => {
   const { matric, password } = req.body;
@@ -139,7 +139,7 @@ const forgotPassword = (req, res) => {
             user.save().then((result) => {
                 transporter.sendMail({
                     to:user.email,
-                    from:"asem@test.com",
+                    from:"asemiloore@gmail.com",
                     subject:"password-reset",
                     html: `<p> your password reset <p>
                     <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`
@@ -149,5 +149,24 @@ const forgotPassword = (req, res) => {
         })
     })
 }
+
+// const resetPassword = (req, res) => {
+//   const {resetToken, newpassword} = req.body
+//   User.findOne({restToken:req.body.restToken})
+//   .then(user=> {
+//     if(!user){
+//       return res.status(422).json({error:"try again token expired"})
+//     }
+//     bcrypt.hash(newpassword).then(hashedpassword => {
+//       user.password = newpassword
+//       user.restToken = undefined
+//       user.save().then((saveduser)=> {
+//         res.json({message:"password updated"})
+//       })
+//     })
+//   }) catch(err)
+
+//   }
+// }
 
 module.exports = { signup, login, forgotPassword };

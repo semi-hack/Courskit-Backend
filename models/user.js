@@ -37,7 +37,8 @@ const UserSchema = new Schema({
         enum: ["basic", "admin"]
     },
     resetToken: {
-        type: String
+        type: String,
+        default: ''
     },
     // expireToken: {
     //     type: Date

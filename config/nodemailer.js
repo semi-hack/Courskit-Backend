@@ -1,14 +1,17 @@
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
-
+//const mg = require('nodemailer-mailgun-transport');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 2525,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: '924284597e233b',
-        pass: 'fb87bc3681ef35'
+        user: process.env.USERNAME,
+        pass: process.env.PASSWORD,
+        clientId: process.env.NODEMAILER_CLIENT_ID,
+        clientSecret: process.env.NODEMAILER_CLIENT_SECRET,
+        refreshToken: process.env.NODEMAILER_REFRESH_TOKEN,
     }
-});
+})
 
-module.exports = { transporter }
+module.exports = { transporter } 

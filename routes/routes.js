@@ -36,5 +36,7 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.post('/forgotPassword', userController.forgotPassword);
+router.get('/user/getCourse/id', courseController.GetCourseById)
+router.get('/user/getLecturer/id', LecturerController.getLecturerById)
 
 module.exports = router

@@ -56,6 +56,36 @@ const GetAllCourses = async (req, res) => {
   }
 };
 
+//get all courses in a level
+// const GetLevelCourses = async (req, res) => {
+//   const { level } = req.body
+//   if (req.body.level === 100) {
+//     await Course.find({"code":{$gt : 99, $lt : 199}});
+//   } else if(req.body.level === 200) {
+//     await Course.find({"code":{$gt : 99, $lt : 199}});
+//   } else if (req.body.level === 300) {
+//     await Course.find({"code":{$gt : 99, $lt : 199}});
+//   } else (req.body.level === 400) {
+//     await Course.find({"code":{$gt : 99, $lt : 199}});
+//   }
+// }
+
+// get course by id
+const GetCourseById = async (req, res) => {
+  const { id } = req.body
+  const course = await Course.findOne({_id: req.body.id}).populate('venue');
+  if(course) {
+    return res.status(200).json({
+      success: true,
+      data: course
+    });
+  } else {
+    return res.status(400).json({
+      error: "course not found"
+    });
+  }
+};
+
 //update a course
 const UpdateCourse = async (req, res) => {
     const UpdateCourse = await Course.findOneAndUpdate(req.params._id, {$set: req.body});
@@ -88,4 +118,4 @@ const DeleteCourse = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createCourse, GetAllCourses, UpdateCourse, DeleteCourse };
+module.exports = { createCourse, GetAllCourses, GetCourseById,  UpdateCourse, DeleteCourse };
