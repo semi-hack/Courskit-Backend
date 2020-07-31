@@ -20,6 +20,9 @@ const CourseSchema = new Schema({
     description: {
         type: String
     },
+    level: {
+        type: Number
+    },
     lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: null},
     venue: {type: Schema.Types.ObjectId, ref: 'room'},
     time: {

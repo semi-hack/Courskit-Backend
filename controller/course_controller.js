@@ -4,7 +4,7 @@ const Course = require("../models/course");
 
 // create a Room
 const createCourse = async (req, res) => {
-  const { name, code, unit, time, day, venue, description } = req.body;
+  const { name, code, unit, time, day, venue, description, level } = req.body;
 
   try {
     const existingcourse = await Course.findOne({ name: req.body.name }).exec();
@@ -22,6 +22,7 @@ const createCourse = async (req, res) => {
         time,
         venue,
         description,
+        level
     });
     await course.save(() => {
       Course.findOne({name : req.body.name}).populate('venue')
@@ -48,7 +49,8 @@ const GetAllCourses = async (req, res) => {
   if (courses) {
     return res.status(200).json({
         success: true,
-        data: courses });
+        data: courses
+     });
   } else {
     return res.status(404).json({
       error: "no course found",
@@ -86,6 +88,18 @@ const GetCourseById = async (req, res) => {
   }
 };
 
+// get course by level
+const GetCourseByLevel = async(req, res) => {
+  const { level } = req.headers 
+  Course.find({ level: req.headers.level}, (err, courses) => {
+    if(err) return console.log(err)
+    return res.status(200).json({
+      message:"gotten",
+      courses
+    })
+  })
+};
+
 //update a course
 const UpdateCourse = async (req, res) => {
     const UpdateCourse = await Course.findOneAndUpdate(req.params._id, {$set: req.body});
@@ -118,4 +132,4 @@ const DeleteCourse = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createCourse, GetAllCourses, GetCourseById,  UpdateCourse, DeleteCourse };
+module.exports = { createCourse, GetAllCourses, GetCourseById, GetCourseByLevel,  UpdateCourse, DeleteCourse };

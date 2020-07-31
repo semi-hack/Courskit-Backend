@@ -38,6 +38,8 @@ router.post('/login', userController.login);
 router.get('/user', userController.getUser);
 router.post('/forgotPassword', userController.forgotPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
+router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
+
 
 module.exports = router

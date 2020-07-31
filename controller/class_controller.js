@@ -25,7 +25,7 @@ const createclass = async (req, res) => {
         await Xclass.save()
         return res.json({
             success: true,
-            data: class
+            data: Xclass
         });
     } catch (error) {
         return res.status(500).json({
