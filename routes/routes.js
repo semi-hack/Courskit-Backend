@@ -5,6 +5,7 @@ const LecturerController = require('../controller/lecturer_controller');
 const courseController = require('../controller/course_controller');
 const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
+const user = require('../controller/user');
 
 
 router.get('/', (req, res) => {
@@ -37,6 +38,7 @@ router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);
 router.post('/forgotPassword', userController.forgotPassword);
+router.post('/resetPassword', user.resetPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)

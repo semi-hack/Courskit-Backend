@@ -5,6 +5,10 @@ const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
 const { transporter }  = require("../config/nodemailer");
 const crypto = require("crypto");
+const bcrypt = require('bcrypt');
+const { nextTick } = require("process");
+const { error } = require("console");
+const { use } = require("bcrypt/promises");
 //const { doesNotMatch } = require("assert");
 
 const login = async (req, res) => {
@@ -135,6 +139,7 @@ const forgotPassword = (req, res) => {
                 return res.status(422).json("user does not exist")
             }
             user.restToken = token
+            console.log(token);
             //user.expireToken = Date.now + 360000
             user.save().then((result) => {
                 transporter.sendMail({
@@ -150,24 +155,24 @@ const forgotPassword = (req, res) => {
     })
 }
 
-// const resetPassword = (req, res) => {
-//   const {resetToken, newpassword} = req.body
-//   User.findOne({restToken:req.body.restToken})
-//   .then(user=> {
-//     if(!user){
-//       return res.status(422).json({error:"try again token expired"})
-//     }
-//     bcrypt.hash(newpassword).then(hashedpassword => {
-//       user.password = newpassword
-//       user.restToken = undefined
-//       user.save().then((saveduser)=> {
-//         res.json({message:"password updated"})
-//       })
-//     })
-//   }) catch(err)
-
-//   }
-// }
+const resetPassword = (req, res) => {
+  const {resetToken, newpassword} = req.body
+  User.findOne({restToken:req.body.restToken})
+  .then(user=> {
+    if(!user){
+      return res.status(422).json({error:"try again token expired"})
+    }
+    bcrypt.hash(newpassword,10).then(hashedpassword => {
+      user.password = hashedpassword
+      user.restToken = undefined
+      user.save().then((saveduser)=> {
+        res.json({message:"password updated", data: saveduser})
+      })
+    })
+  }).catch(err => {
+    console.log(err)
+  })
+}
 
 const getUser = (req, res) => {
   const token = req.headers.token;
@@ -185,4 +190,15 @@ const getUser = (req, res) => {
   })
 }
 
-module.exports = { signup, login, forgotPassword, getUser };
+const uploadFile = (req, res) => {
+  const file = req.file
+
+  if(!file) {
+    const error = new Error("please upload a file")
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  res.send(file)
+}
+
+module.exports = { signup, login, forgotPassword, resetPassword, getUser };
