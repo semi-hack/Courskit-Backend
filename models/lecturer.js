@@ -12,6 +12,9 @@ const LecturerSchema = new Schema({
     ranking: {
         type: String
     },
+    degree: {
+        type: String
+    },
     office_no: {
         type: String,
         required: true

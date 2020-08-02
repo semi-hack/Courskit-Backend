@@ -86,6 +86,22 @@ const getLecturerById = async (req, res) => {
     };
 }
 
+const UpdateLecturer = async (req, res) => {
+    const { _id } = req.headers
+    const UpdatedLecturer = await Lecturer.findByIdAndUpdate(req.headers._id, {$set: req.body});
+    if (!UpdatedLecturer) {
+        res.status(400).json({
+            message: "failed to update"
+        });
+    } else {
+        res.json({
+            success: true,
+            message: UpdatedLecturer
+        });
+    }
+
+}
+
 // delete a lecturer
 const Deletelecturer = async (req, res) => {
 
@@ -102,4 +118,4 @@ const Deletelecturer = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createLecturer, getAllLecturer, getLecturerById,  Deletelecturer }
+module.exports = { createLecturer, getAllLecturer, getLecturerById, UpdateLecturer, Deletelecturer }

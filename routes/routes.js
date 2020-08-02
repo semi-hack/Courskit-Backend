@@ -6,6 +6,7 @@ const courseController = require('../controller/course_controller');
 const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
 const user = require('../controller/user');
+const Lecturer = require('../models/lecturer');
 
 
 router.get('/', (req, res) => {
@@ -20,6 +21,7 @@ router.delete('/Admin/room/delete', roomController.DeleteRoom);
 
 router.post('/Admin/lecturer', LecturerController.createLecturer);
 router.get('/Admin/getlecturer', LecturerController.getAllLecturer);
+router.patch('/Admin/lecturer/update', LecturerController.UpdateLecturer);
 router.delete('/Admin/lecturer/delete', LecturerController.Deletelecturer);
 
 
