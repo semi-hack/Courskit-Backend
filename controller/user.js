@@ -162,6 +162,7 @@ const resetPassword = (req, res) => {
         return res.status(422).json({ error: "try again token expired" });
       }
       bcrypt.hash(newpassword, 10).then((hashedpassword) => {
+        console.log(user)
         user.password = hashedpassword;
         user.restToken = undefined;
         user.save().then((saveduser) => {
@@ -191,6 +192,23 @@ const getUser = (req, res) => {
   });
 };
 
+// Update User
+const UpdateUser = async (req, res) => {
+  const { _id } = req.headers
+  const UpdatedUser = await User.findByIdAndUpdate(req.headers._id, {$set: req.body});
+  if (!UpdatedUser) {
+      res.status(400).json({
+          message: "failed to update"
+      });
+  } else {
+      res.json({
+          success: true,
+          message: UpdatedUser
+      });
+  }
+
+}
+
 // const checkExistence = async (req, res) => {
 //   const {email, matric} = req.body
 //   try {
@@ -198,4 +216,4 @@ const getUser = (req, res) => {
 //   }
 // }
 
-module.exports = { signup, login, forgotPassword, resetPassword, getUser };
+module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser };

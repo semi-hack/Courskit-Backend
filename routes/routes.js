@@ -41,6 +41,7 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);
+router.patch('/user/update', userController.UpdateUser);
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', user.resetPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
