@@ -1,16 +1,22 @@
 const express = require("express");
 const path = require('path')
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer')
 
-const storage = multer.diskStorage({
-    destination:function(req,fil,cb){
-        cb(null, 'uploads')
-    },
-    filename:function(req,file,cb){
-        cb(null,file.fieldame + '-' + Date.now() + path.extname(file.original))
-    }
-})
+cloudinary.config({
+    cloud_name: "duqphnggn",
+    api_key: "648338731742227",
+    api_secret: "a1vPBeYwCS4jtzF1xLKYw2E-tig"
+});
 
-const upload = multer({
-    storage:storage
-})
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: 'jomwedding',
+    allowedFormats: ['jpg', 'png'],
+    transformation: [{ width: 500, height: 500, crop: 'limit' }]
+});
+const parser = multer({ storage: storage });
+
+
+module.exports = { parser }

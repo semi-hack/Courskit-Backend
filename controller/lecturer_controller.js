@@ -102,6 +102,23 @@ const UpdateLecturer = async (req, res) => {
 
 }
 
+const UploadImage = async (req, res) => {
+    console.log(req.file)
+    const image = {}
+    const UpdatedLecturerImage = await Lecturer.findByIdAndUpdate(req.headers._id, {$set: {"image": req.file.path}});
+    if (!UpdatedLecturerImage) {
+        res.status(400).json({
+            message: "failed"
+        });
+    } else {
+        res.json({
+            success: true,
+            message: UpdatedLecturerImage
+        });
+    }
+
+}
+
 // delete a lecturer
 const Deletelecturer = async (req, res) => {
 
@@ -118,4 +135,4 @@ const Deletelecturer = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createLecturer, getAllLecturer, getLecturerById, UpdateLecturer, Deletelecturer }
+module.exports = { createLecturer, getAllLecturer, getLecturerById, UpdateLecturer, UploadImage, Deletelecturer }

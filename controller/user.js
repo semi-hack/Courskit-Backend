@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
-const { transporter }  = require("../config/nodemailer");
+const { transporter } = require("../config/nodemailer");
 const crypto = require("crypto");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
@@ -46,7 +46,9 @@ const login = async (req, res) => {
 const adminlogin = async (req, res) => {
   const { adminNumber, password } = req.body;
   try {
-    const user = await User.findOne({ adminNumber: req.body.adminNumber }).exec();
+    const user = await User.findOne({
+      adminNumber: req.body.adminNumber,
+    }).exec();
     if (!user) {
       return res.status(404).json({
         error: "user not found",
@@ -105,15 +107,14 @@ const signup = async (req, res) => {
       password,
       role,
     });
-    await user.save()
-    .then(user=> {
-        transporter.sendMail({
-            to:user.email,
-            from:"semilooreakinlo@gmail.com",
-            subject:"sign-up success",
-            html: "<h1> welcome </h1>"
-        })
-    })
+    await user.save().then((user) => {
+      transporter.sendMail({
+        to: user.email,
+        from: "semilooreakinlo@gmail.com",
+        subject: "sign-up success",
+        html: "<h1> welcome </h1>",
+      });
+    });
     return res.status(200).json({
       success: true,
       data: user,
@@ -126,79 +127,75 @@ const signup = async (req, res) => {
   }
 };
 
-
 const forgotPassword = (req, res) => {
-    crypto.randomBytes(32,(err, buffer) => {
-        if(err) {
-            console.log(err)
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+    }
+    const token = buffer.toString("hex");
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (!user) {
+        return res.status(422).json("user does not exist");
+      }
+      transporter.sendMail({
+        to: user.email,
+        from: "asemiloore@gmail.com",
+        subject: "password-reset",
+        html: `<p> your password reset <p>
+            <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`,
+      });
+      res.json({ message: "check mail" });
+      return user.updateOne({ resetToken: token }, (err, success) => {
+        if (err) {
+          return res.status(400).json({ error: "USER DOESNT EXIST" });
         }
-        const token = buffer.toString("hex")
-        User.findOne({email: req.body.email})
-        .then(user => {
-            if(!user) {
-                return res.status(422).json("user does not exist")
-            }
-            user.restToken = token
-            console.log(token);
-            //user.expireToken = Date.now + 360000
-            user.save().then((result) => {
-                transporter.sendMail({
-                    to:user.email,
-                    from:"asemiloore@gmail.com",
-                    subject:"password-reset",
-                    html: `<p> your password reset <p>
-                    <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`
-                })
-                res.json({message: "check mail"})
-            })
-        })
-    })
-}
+      });
+    });
+  });
+};
 
 const resetPassword = (req, res) => {
-  const {resetToken, newpassword} = req.body
-  User.findOne({restToken:req.body.restToken})
-  .then(user=> {
-    if(!user){
-      return res.status(422).json({error:"try again token expired"})
-    }
-    bcrypt.hash(newpassword,10).then(hashedpassword => {
-      user.password = hashedpassword
-      user.restToken = undefined
-      user.save().then((saveduser)=> {
-        res.json({message:"password updated", data: saveduser})
-      })
+  const { resetToken, newpassword } = req.body;
+  User.findOne({ restToken: req.body.restToken })
+    .then((user) => {
+      if (!user) {
+        return res.status(422).json({ error: "try again token expired" });
+      }
+      bcrypt.hash(newpassword, 10).then((hashedpassword) => {
+        user.password = hashedpassword;
+        user.restToken = undefined;
+        user.save().then((saveduser) => {
+          res.json({ message: "password updated", data: saveduser });
+        });
+      });
     })
-  }).catch(err => {
-    console.log(err)
-  })
-}
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 const getUser = (req, res) => {
   const token = req.headers.token;
   jwt.verify(token, secret, (err, decoded) => {
-    if (err) return res.status(401).json({
-      title: "unauthorized"
-    })
-    User.findOne({_id: decoded._id}, (err, user) => {
-      if(err) return console.log(err)
+    if (err)
+      return res.status(401).json({
+        title: "unauthorized",
+      });
+    User.findOne({ _id: decoded._id }, (err, user) => {
+      if (err) return console.log(err);
       return res.status(200).json({
         title: "user granted",
-        user
-      })
-    })
-  })
-}
+        user,
+      });
+    });
+  });
+};
 
-const uploadFile = (req, res) => {
-  const file = req.file
-
-  if(!file) {
-    const error = new Error("please upload a file")
-    error.httpStatusCode = 400;
-    return next(error);
-  }
-  res.send(file)
-}
+// const checkExistence = async (req, res) => {
+//   const {email, matric} = req.body
+//   try {
+//     if(req.body.matric == )
+//   }
+// }
 
 module.exports = { signup, login, forgotPassword, resetPassword, getUser };

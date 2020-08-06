@@ -48,7 +48,7 @@ const GetAllRooms = async (req, res) => {
 
 //update a room
 const updateRoom = async (req, res) => {
-    const UpdateRoom = await Room.findOneAndUpdate(req.params._id, {$set: reqbody});
+    const UpdateRoom = await Room.findByIdAndUpdate(req.params._id, {$set: reqbody});
     if (err) {
         res.status(400).json({
             message: "failed to update"
@@ -65,9 +65,9 @@ const updateRoom = async (req, res) => {
 // delete a room
 const DeleteRoom = async (req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.headers;
     try {
-        const data = await Room.findOneAndDelete({ _id: req.body.id});
+        const data = await Room.findByIdAndDelete({ _id: req.headers.id});
         if (!data) {
             res.status(404).json({ success: false, message: 'not found' });
             return;

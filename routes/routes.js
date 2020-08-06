@@ -7,6 +7,7 @@ const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
+const { parser } = require('../middleware/upload');
 
 
 router.get('/', (req, res) => {
@@ -23,6 +24,7 @@ router.post('/Admin/lecturer', LecturerController.createLecturer);
 router.get('/Admin/getlecturer', LecturerController.getAllLecturer);
 router.patch('/Admin/lecturer/update', LecturerController.UpdateLecturer);
 router.delete('/Admin/lecturer/delete', LecturerController.Deletelecturer);
+router.route('/image').patch(parser.single('image'), LecturerController.UploadImage);
 
 
 router.post('/Admin/course', courseController.createCourse);
