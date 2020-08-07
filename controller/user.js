@@ -4,7 +4,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
-const crypto = require("crypto");
+const { nanoid } = require('nanoid');
 const bcrypt = require("bcrypt");
 const { nextTick } = require("process");
 const { error } = require("console");
@@ -127,12 +127,36 @@ const signup = async (req, res) => {
   }
 };
 
+// const forgotPassword = (req, res) => {
+//   crypto.randomBytes(32, (err, buffer) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     const token = buffer.toString("hex");
+//     User.findOne({ email: req.body.email }, (err, user) => {
+//       if (!user) {
+//         return res.status(422).json("user does not exist");
+//       }
+//       transporter.sendMail({
+//         to: user.email,
+//         from: "asemiloore@gmail.com",
+//         subject: "password-reset",
+//         html: `<p> your password reset <p>
+//             <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`,
+//       });
+//       console.log(token)
+//       res.json({ message: "check mail" });
+//       return user.updateOne({ resetToken: token }, (err, success) => {
+//         if (err) {
+//           return res.status(400).json({ error: "USER DOESNT EXIST" });
+//         }
+//       });
+//     });
+//   });
+// };
+
 const forgotPassword = (req, res) => {
-  crypto.randomBytes(32, (err, buffer) => {
-    if (err) {
-      console.log(err);
-    }
-    const token = buffer.toString("hex");
+    const token = nanoid(5);
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.status(422).json("user does not exist");
@@ -144,6 +168,7 @@ const forgotPassword = (req, res) => {
         html: `<p> your password reset <p>
             <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`,
       });
+      console.log(token)
       res.json({ message: "check mail" });
       return user.updateOne({ resetToken: token }, (err, success) => {
         if (err) {
@@ -151,28 +176,45 @@ const forgotPassword = (req, res) => {
         }
       });
     });
-  });
 };
 
+// const resetPassword = (req, res) => {
+//   const { resetToken, newpassword } = req.body;
+//   User.findOne({ restToken: req.body.restToken })
+//     .then((user) => {
+//       if (!user) {
+//         return res.status(422).json({ error: "try again token expired" });
+//       }
+//       bcrypt.hash(newpassword, 10).then((hashedpassword) => {
+//         console.log(user)
+//         user.password = hashedpassword;
+//         user.restToken = undefined;
+//         user.save().then((saveduser) => {
+//           res.json({ message: "password updated", data: saveduser });
+//         });
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
 const resetPassword = (req, res) => {
-  const { resetToken, newpassword } = req.body;
-  User.findOne({ restToken: req.body.restToken })
-    .then((user) => {
-      if (!user) {
-        return res.status(422).json({ error: "try again token expired" });
-      }
-      bcrypt.hash(newpassword, 10).then((hashedpassword) => {
-        console.log(user)
-        user.password = hashedpassword;
-        user.restToken = undefined;
-        user.save().then((saveduser) => {
-          res.json({ message: "password updated", data: saveduser });
-        });
+  const { resetToken, newpassword } = req.body
+  User.findOne({ resetToken: req.body.resetToken }, (err, user) => {
+    if(!user) {
+      return res.status(422).json({ error: "wrong token" })
+    }
+    console.log(user)
+    bcrypt.hash(newpassword, 10).then((hashedpassword) => {
+      console.log(user)
+      user.password = hashedpassword;
+      user.restToken = undefined;
+      user.save().then((saveduser) => {
+        res.json({ message: "password updated", data: saveduser });
       });
-    })
-    .catch((err) => {
-      console.log(err);
     });
+  })
 };
 
 const getUser = (req, res) => {
