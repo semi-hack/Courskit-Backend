@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
+
 //const { doesNotMatch } = require("assert");
 
 const login = async (req, res) => {
@@ -127,33 +128,6 @@ const signup = async (req, res) => {
   }
 };
 
-// const forgotPassword = (req, res) => {
-//   crypto.randomBytes(32, (err, buffer) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     const token = buffer.toString("hex");
-//     User.findOne({ email: req.body.email }, (err, user) => {
-//       if (!user) {
-//         return res.status(422).json("user does not exist");
-//       }
-//       transporter.sendMail({
-//         to: user.email,
-//         from: "asemiloore@gmail.com",
-//         subject: "password-reset",
-//         html: `<p> your password reset <p>
-//             <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`,
-//       });
-//       console.log(token)
-//       res.json({ message: "check mail" });
-//       return user.updateOne({ resetToken: token }, (err, success) => {
-//         if (err) {
-//           return res.status(400).json({ error: "USER DOESNT EXIST" });
-//         }
-//       });
-//     });
-//   });
-// };
 
 const forgotPassword = (req, res) => {
     const token = nanoid(5);
@@ -177,27 +151,6 @@ const forgotPassword = (req, res) => {
       });
     });
 };
-
-// const resetPassword = (req, res) => {
-//   const { resetToken, newpassword } = req.body;
-//   User.findOne({ restToken: req.body.restToken })
-//     .then((user) => {
-//       if (!user) {
-//         return res.status(422).json({ error: "try again token expired" });
-//       }
-//       bcrypt.hash(newpassword, 10).then((hashedpassword) => {
-//         console.log(user)
-//         user.password = hashedpassword;
-//         user.restToken = undefined;
-//         user.save().then((saveduser) => {
-//           res.json({ message: "password updated", data: saveduser });
-//         });
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
 
 const resetPassword = (req, res) => {
   const { resetToken, newpassword } = req.body
@@ -251,11 +204,43 @@ const UpdateUser = async (req, res) => {
 
 }
 
-// const checkExistence = async (req, res) => {
-//   const {email, matric} = req.body
-//   try {
-//     if(req.body.matric == )
-//   }
-// }
+const UpdateUserImage = async (req, res) => {
+  console.log(req.file)
+  const image = {}
+  const UpdatedUserImage = await User.findByIdAndUpdate(req.headers._id, {$set: {"image": req.file.path}});
+  if (!UpdatedUserImage) {
+      res.status(400).json({
+          message: "failed"
+      });
+  } else {
+      res.json({
+          success: true,
+          message: UpdatedUserImage
+      });
+  }
 
-module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser };
+}
+
+const checkExistence = async (req, res) => {
+  const { email } = req.body
+  var mtu = /\w+@+mtu.edu.ng/
+  try {
+    if(mtu.test(req.body.email) == true ) {
+      return res.json({
+        success: true,
+        data: "https://res.cloudinary.com/duqphnggn/image/upload/v1596850732/mtu_ljd7ex.jpg"
+      })
+    } else {
+      res.status(404).json({
+        success: false
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      err: "error login in",
+      success: false,
+    });
+  }
+}
+
+module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser, UpdateUserImage, checkExistence };

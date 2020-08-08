@@ -6,7 +6,7 @@ const router = require('./routes/routes');
 const app = express()
 connectDB();
 require('dotenv').config();
-const PORT = process.env.PORT || 4040
+const PORT = process.env.PORT || 8682
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

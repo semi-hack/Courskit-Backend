@@ -8,6 +8,7 @@ const userController = require('../controller/user');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
+const { Router } = require('express');
 
 
 router.get('/', (req, res) => {
@@ -38,10 +39,12 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 
 
 //User Routes
+router.post('/verifySchool', userController.checkExistence);
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);
 router.patch('/user/update', userController.UpdateUser);
+router.route('/user/image').patch(parser.single('image'), userController.UpdateUserImage)
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', user.resetPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)

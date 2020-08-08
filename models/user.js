@@ -40,9 +40,9 @@ const UserSchema = new Schema({
         type: String,
         default: ''
     },
-    // expireToken: {
-    //     type: Date
-    // }
+    image: {
+        type: String
+    }
 })
 
 UserSchema.pre('save', async function save(next) {
