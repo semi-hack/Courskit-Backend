@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const generateColor = require('generate-color')
 const Course = require("../models/course");
 
 // create a Room
@@ -14,6 +15,8 @@ const createCourse = async (req, res) => {
         });
     }
 
+    const colorCode = generateColor.default()
+
     const course = new Course({
         name,
         code,
@@ -22,7 +25,8 @@ const createCourse = async (req, res) => {
         time,
         venue,
         description,
-        level
+        level,
+        colorCode
     });
     await course.save(() => {
       Course.findOne({name : req.body.name}).populate('venue')

@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require("mongoose");
-
 const Lecturer = require('../models/lecturer');
 
 
@@ -13,7 +12,8 @@ const createLecturer = async (req, res) => {
         education_bg,
         phone_no,
         office_no,
-        ranking
+        ranking,
+        areaOfSpec
 
     } = req.body
 
@@ -25,7 +25,8 @@ const createLecturer = async (req, res) => {
             education_bg,
             phone_no,
             office_no,
-            ranking
+            ranking,
+            areaOfSpec
         });
 
         if (!lecturer) {

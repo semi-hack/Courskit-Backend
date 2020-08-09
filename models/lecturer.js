@@ -27,6 +27,10 @@ const LecturerSchema = new Schema({
         type: String,
         required: true,
     },
+    areaOfSpec: {
+        type: String,
+        required: true
+    },
     education_bg: {
         type: String,
         required: true
