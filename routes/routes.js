@@ -45,6 +45,7 @@ router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);
 router.patch('/user/update', userController.UpdateUser);
+router.patch('/user/register/course', userController.RegisterCourse);
 router.route('/user/image').patch(parser.single('image'), userController.UpdateUserImage)
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', user.resetPassword);

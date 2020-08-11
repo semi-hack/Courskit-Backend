@@ -6,6 +6,7 @@ const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
 const { nanoid } = require('nanoid');
 const bcrypt = require("bcrypt");
+var _ = require('lodash');
 const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
@@ -160,15 +161,21 @@ const resetPassword = (req, res) => {
       return res.status(422).json({ error: "wrong token" })
     }
     console.log(user)
-    bcrypt.hash(newpassword, 10).then((hashedpassword) => {
-      console.log(user)
-      user.password = hashedpassword;
-      user.restToken = undefined;
-      user.save().then((saveduser) => {
-        res.json({ message: "password updated", data: saveduser });
-      });
+    
+    const obj = {
+      password: newpassword,
+      resetToken: ''
+    }
+
+    user = _.extend(user, obj);
+    user.save((err, result) => {
+      if(err) {
+        return res.status(400).json({error: "reset password error"});
+      } else {
+        return res.status(200).json({message: "password has been changed"})
+      }
     });
-  })
+  });
 };
 
 
@@ -237,7 +244,6 @@ const RegisterCourse = async (req, res) => {
           message: UpdatedUser.courses
       });
   }
-
 }
 
 const checkExistence = async (req, res) => {
