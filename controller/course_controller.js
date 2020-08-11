@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const generateColor = require('generate-color')
 const Course = require("../models/course");
 
-// create a Room
+// create a course
 const createCourse = async (req, res) => {
   const { name, code, unit, time, day, venue, description, level } = req.body;
 
@@ -112,6 +112,30 @@ const UpdateCourse = async (req, res) => {
 
 }
 
+// Course.createMapping((err, mapping) => {
+//   if (err) {
+//     console.log("create mapping");
+//     console.log(err);
+//   } else {
+//     console.log("mapping created")
+//     console.log(mapping)
+//   }
+// });
+
+// var stream = Course.synchronize();
+// var count = 0;
+
+// stream.on('data', () => {
+//   count++;
+// });
+
+// stream.on('close', () => {
+//   console.log("index" + count + "docments")
+// })
+
+// stream.on('error', (err) => {
+//   console.log(err);
+// })
 
 
 // delete a Course

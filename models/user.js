@@ -42,7 +42,13 @@ const UserSchema = new Schema({
     },
     image: {
         type: String
-    }
+    },
+    units: {
+        type: Number,
+        min: 15,
+        max: 24
+    },
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
 })
 
 UserSchema.pre('save', async function save(next) {

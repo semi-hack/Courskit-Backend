@@ -137,10 +137,11 @@ const forgotPassword = (req, res) => {
       }
       transporter.sendMail({
         to: user.email,
-        from: "asemiloore@gmail.com",
-        subject: "password-reset",
-        html: `<p> your password reset <p>
-            <h5> click on <a href="http://localhost:5000/reset/${token}>link</a>`,
+        from: "testd20202@gmail.com",
+        subject: "Password-Reset",
+        html: `<p><h1>Password Reset</h1> <p>
+            <h4> Your reset code is:   ${token}</h4><br>
+            <h5>Use this code to reset your password. This code should not be shared</h5><br>`,
       });
       console.log(token)
       res.json({ message: "check mail" });
@@ -169,6 +170,7 @@ const resetPassword = (req, res) => {
     });
   })
 };
+
 
 const getUser = (req, res) => {
   const token = req.headers.token;
@@ -221,6 +223,23 @@ const UpdateUserImage = async (req, res) => {
 
 }
 
+// add courses to user
+const RegisterCourse = async (req, res) => {
+  const { _id } = req.headers
+  const UpdatedUser = await User.findByIdAndUpdate(req.headers._id, {$set: req.body});
+  if (!UpdatedUser) {
+      res.status(400).json({
+          message: "failed to update"
+      });
+  } else {
+      res.json({
+          success: true,
+          message: UpdatedUser.courses
+      });
+  }
+
+}
+
 const checkExistence = async (req, res) => {
   const { email } = req.body
   var mtu = /\w+@+mtu.edu.ng/
@@ -243,4 +262,4 @@ const checkExistence = async (req, res) => {
   }
 }
 
-module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser, UpdateUserImage, checkExistence };
+module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser, UpdateUserImage, RegisterCourse, checkExistence };

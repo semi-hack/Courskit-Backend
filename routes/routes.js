@@ -35,6 +35,7 @@ router.delete('/Admin/course/delete', courseController.DeleteCourse);
 
 router.post('/Admin/period', periodController.createPeriod);
 router.get('/Admin/getPeriod', periodController.getAllPeriods);
+//router.patch('/Admin/period/update', periodController)
 router.delete('/Admin/period/delete', periodController.DeletePeriod);
 
 
