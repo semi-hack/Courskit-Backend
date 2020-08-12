@@ -66,10 +66,10 @@ const GetAllCourses = async (req, res) => {
 const GetCourseById = async (req, res) => {
   const { id } = req.body
   const course = await Course.findOne({_id: req.body.id}).populate('venue').populate('lecturer')
-  if (courses) {
+  if (course) {
     return res.status(200).json({
       success: true,
-      data: courses
+      data: course
     });
   } else {
     return res.status(404).json({
@@ -112,38 +112,36 @@ const UpdateCourse = async (req, res) => {
 
 }
 
-// Course.createMapping((err, mapping) => {
-//   if (err) {
-//     console.log("create mapping");
-//     console.log(err);
-//   } else {
-//     console.log("mapping created")
-//     console.log(mapping)
-//   }
-// });
+//search for a course
+const search = async(req, res) => {
+  const { q } = req.query
 
-// var stream = Course.synchronize();
-// var count = 0;
-
-// stream.on('data', () => {
-//   count++;
-// });
-
-// stream.on('close', () => {
-//   console.log("index" + count + "docments")
-// })
-
-// stream.on('error', (err) => {
-//   console.log(err);
-// })
-
+  try{
+    const result = await Course.find({ $text: { $search: req.query.q }})
+    if (result) {
+      return res.status(200).json({
+        success: true,
+        message: "gotten",
+        data: result      });
+    } else {
+      return res.status(404).json({
+        error: "no course found",
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+        error: 'There was an error.',
+        success: false
+    });
+  }
+};
 
 // delete a Course
 const DeleteCourse = async (req, res) => {
 
     const { id } = req.body;
     try {
-        const data = await Room.findOneAndDelete({ _id: req.body.id});
+        const data = await Course.findOneAndDelete({ _id: req.body.id});
         if (!data) {
             res.status(404).json({ success: false, message: 'not found' });
             return;
@@ -154,4 +152,4 @@ const DeleteCourse = async (req, res) => {
         res.status(500).json(error)
     }
 };
-module.exports = { createCourse, GetAllCourses, GetCourseById, GetCourseByLevel,  UpdateCourse, DeleteCourse };
+module.exports = { createCourse, GetAllCourses, GetCourseById, GetCourseByLevel,  UpdateCourse, search, DeleteCourse };

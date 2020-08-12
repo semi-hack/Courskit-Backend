@@ -39,11 +39,14 @@ const CourseSchema = new Schema({
     },
 })
 
-CourseSchema.plugin(mongoosastic)
+//CourseSchema.plugin(mongoosastic)
+
+CourseSchema.index({
+    name: "text", code: "text"
+})
 
 const Course = mongoose.model("Course", CourseSchema)
 
-Course.search
 
 
 module.exports = Course 

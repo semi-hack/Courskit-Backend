@@ -50,6 +50,7 @@ router.route('/user/image').patch(parser.single('image'), userController.UpdateU
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', user.resetPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
+router.get('/user/getCourse/search', courseController.search);
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
 
