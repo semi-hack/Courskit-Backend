@@ -109,14 +109,8 @@ const signup = async (req, res) => {
       password,
       role,
     });
-    await user.save().then((user) => {
-      transporter.sendMail({
-        to: user.email,
-        from: "semilooreakinlo@gmail.com",
-        subject: "sign-up success",
-        html: "<h1> welcome </h1>",
-      });
-    });
+
+    await user.save();
     return res.status(200).json({
       success: true,
       data: user,
@@ -131,7 +125,7 @@ const signup = async (req, res) => {
 
 
 const forgotPassword = (req, res) => {
-    const token = nanoid(5);
+    const token = nanoid('1234567890abcdefghijklmnopqrstuvwxyz', 5);
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.status(422).json("user does not exist");

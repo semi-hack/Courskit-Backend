@@ -5,10 +5,11 @@ const LecturerController = require('../controller/lecturer_controller');
 const courseController = require('../controller/course_controller');
 const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
+const discussionController = require('../controller/discussion_controller');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
-const { Router } = require('express');
+
 
 
 router.get('/', (req, res) => {
@@ -53,6 +54,8 @@ router.get('/user/getCourse/id', courseController.GetCourseById)
 router.get('/user/getCourse/search', courseController.search);
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
+router.post('/user/discussion', discussionController.createDiscussion);
+router.put('/user/comment', discussionController.comment);
 
 
 module.exports = router

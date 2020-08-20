@@ -117,7 +117,7 @@ const search = async(req, res) => {
   const { q } = req.query
 
   try{
-    const result = await Course.find({ $text: { $search: req.query.q }})
+    const result = await Course.find({ $text: { $search: req.query.q }}).populate('venue').populate('lecturer')
     if (result) {
       return res.status(200).json({
         success: true,
