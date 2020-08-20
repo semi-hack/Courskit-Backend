@@ -172,6 +172,36 @@ const resetPassword = (req, res) => {
   });
 };
 
+const resetPasswordwithOldPassword = (req, res) => {
+  const { _id, oldPassword, newpassword } = req.body
+  User.findOne({ _id: req.body._id }, (err, user) => {
+    if(!user) {
+      return res.status(422).json({ error: "wrong token" })
+    }
+    
+    user.comparePassword(req.body.password, (err, match) => {
+      if (!match) {
+        return response
+          .status(400)
+          .send({ message: "The password is invalid" });
+      }
+    });
+    
+    const obj = {
+      password: newpassword,
+    }
+
+    user = _.extend(user, obj);
+    user.save((err, result) => {
+      if(err) {
+        return res.status(400).json({error: "reset password error"});
+      } else {
+        return res.status(200).json({message: "password has been changed"})
+      }
+    });
+  });
+};
+
 
 const getUser = (req, res) => {
   const token = req.headers.token;
@@ -264,4 +294,4 @@ const checkExistence = async (req, res) => {
   }
 }
 
-module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser, UpdateUserImage, RegisterCourse, checkExistence };
+module.exports = { signup, login, forgotPassword, resetPassword, getUser, UpdateUser, UpdateUserImage, RegisterCourse, checkExistence, resetPasswordwithOldPassword };
