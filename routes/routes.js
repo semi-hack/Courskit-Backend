@@ -41,7 +41,7 @@ router.delete('/Admin/period/delete', periodController.DeletePeriod);
 
 
 //User Routes
-router.post('/verifySchool', userController.checkExistence);
+router.get('/verifySchool', userController.checkExistence);
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);

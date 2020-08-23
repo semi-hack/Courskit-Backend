@@ -4,7 +4,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
-const { nanoid } = require('nanoid');
+const { nanoid, customAlphabet } = require('nanoid');
 const bcrypt = require("bcrypt");
 var _ = require('lodash');
 const { nextTick } = require("process");
@@ -125,7 +125,8 @@ const signup = async (req, res) => {
 
 
 const forgotPassword = (req, res) => {
-    const token = nanoid('1234567890abcdefghijklmnopqrstuvwxyz', 5);
+    const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 5)
+    const token = nanoid();
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.status(422).json("user does not exist");
