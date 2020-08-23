@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const router = require('./routes/routes');
-const { Socket } = require('dgram');
+
 
 require('dotenv').config();
 connectDB();
@@ -24,15 +24,15 @@ app.use(router);
 io.on('connection', (socket) => {
     console.log("user connected")
 
-    socket.on('topic', async data => {
-        const newDiscussion = await ADD_Discussion(data)
-        console.log(newDiscussion)
-        socket.broadcast.emit("new_discussion", newDiscussion)
+    socket.on('topic', async discussiondata => {
+        console.log(data)
+        socket.broadcast.emit("new_discussion", discussiondata)
     })
 
-    // socket.on('comment', (comment) => {
-    //     io.emit("new_comment", comment)
-    // })
+
+    socket.on('comment', (comment) => {
+        io.emit("new_comment", comment)
+    })
     
 })
 

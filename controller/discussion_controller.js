@@ -34,30 +34,27 @@ const createDiscussion = async (req, res) => {
 
 
 const comment = async (req, res) => {
-    const { discussionId } = req.headers
-    //const comment = {message: req.body.message, userId: req.body.userId}
+    const { _id } = req.headers
+
     const comm = new Comments({
         message: req.body.message,
         userId: req.body.userId
     })
     await comm.save()
 
-    await Discussion.findOneAndUpdate( {_id: req.headers.discussionId}, {
-        $set: {
-            comments:comm._id
-        },
+    const result = await Discussion.findByIdAndUpdate( req.headers._id, {
+        $push: {comments:comm}
     }, { 
-        'new': true
-        
-    }, (err, discussion) => {
-        if(err) {
-            console.log(err)
-        } else {
-            console.log(discussion)
-            return(null, discussion)
-        }
-        return res.status(200).json({ data: discussion})
-    })
+        new: true    
+    }).populate({ path:'comments', populate: [{ path: 'userId', model: 'User'}]})
+    if(!result) {
+        return res.status(400)
+    } else {
+        return res.status(200).json({
+            message: "comments",
+            data: result
+        })
+    }
 
     
 }

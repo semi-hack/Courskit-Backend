@@ -257,7 +257,7 @@ const UpdateUserImage = async (req, res) => {
 // add courses to user
 const RegisterCourse = async (req, res) => {
   const { _id } = req.headers
-  const UpdatedUser = await User.findByIdAndUpdate(req.headers._id, {$set: req.body}).populate({ 
+  const UpdatedUser = await User.findByIdAndUpdate(req.headers._id, {$set: req.body}, {new: true}).populate({ 
     path:'courses', populate: [{path: 'lecturer', model: 'Lecturer'}, {path: 'venue', model: 'room'}]
   });
   if (!UpdatedUser) {
@@ -267,7 +267,7 @@ const RegisterCourse = async (req, res) => {
   } else {
       res.json({
           success: true,
-          message: UpdatedUser.courses
+          message: UpdatedUser
       });
   }
 }
