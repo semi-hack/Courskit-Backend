@@ -274,10 +274,10 @@ const RegisterCourse = async (req, res) => {
 }
 
 const checkExistence = async (req, res) => {
-  const { email } = req.body
+  const { email } = req.query
   var mtu = /\w+@+mtu.edu.ng/
   try {
-    if(mtu.test(req.body.email) == true ) {
+    if(mtu.test(req.query.email) == true ) {
       return res.json({
         success: true,
         data: "https://res.cloudinary.com/duqphnggn/image/upload/v1596850732/mtu_ljd7ex.jpg"
