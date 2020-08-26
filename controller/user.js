@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("../models/user");
+const Course = require("../models/course");
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
@@ -99,6 +100,9 @@ const signup = async (req, res) => {
         success: false,
       });
     }
+    const course = await Course.find({ level: req.body.level}).populate('venue').populate('lecturer')
+    console.log(course)
+
     const user = new User({
       firstname,
       lastname,
@@ -108,6 +112,7 @@ const signup = async (req, res) => {
       matric,
       password,
       role,
+      courses: course
     });
 
     await user.save();

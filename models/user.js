@@ -43,10 +43,16 @@ const UserSchema = new Schema({
     image: {
         type: String
     },
-    units: {
+    maxUnit: {
         type: Number,
-        min: 15,
-        max: 24
+        default: 24
+    },
+    minUnit: {
+        type: Number,
+        default: 16
+    },
+    selectedUnit: {
+        type: Number,
     },
     courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
 })
