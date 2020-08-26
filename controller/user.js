@@ -261,7 +261,7 @@ const UpdateUserImage = async (req, res) => {
   console.log(req.file);
   const image = {};
   const UpdatedUserImage = await User.findByIdAndUpdate(req.headers._id, {
-    $set: { image: req.file.path },
+    $set: { "image": req.file.path },
   });
   if (!UpdatedUserImage) {
     res.status(400).json({
