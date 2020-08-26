@@ -179,34 +179,41 @@ const resetPassword = (req, res) => {
   });
 };
 
-const resetPasswordwithOldPassword = (req, res) => {
-  const { _id, oldPassword, newpassword } = req.body;
-  User.findOne({ _id: req.body._id }, (err, user) => {
-    if (!user) {
-      return res.status(422).json({ error: "wrong token" });
+const resetPasswordwithOldPassword = async (req, res) => {
+  const { _id } = req.headers
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ _id: req.headers._id }).exec();
+    if(!user) {
+      return res.status(401).json({
+        success: false, error: 'invalid user'
+      });
     }
 
-    user.comparePassword(req.body.password, (err, match) => {
+    user.comparePassword(req.body.oldPassword, (err, match) => {
       if (!match) {
-        return response
+        return res
           .status(400)
-          .send({ message: "The password is invalid" });
-      }
+          .json({ success: false, message: "The password is invalid" });
+      } 
+
     });
 
-    const obj = {
-      password: newpassword,
-    };
+    user.password = newpassword
+    await user.save();
 
-    user = _.extend(user, obj);
-    user.save((err, result) => {
-      if (err) {
-        return res.status(400).json({ error: "reset password error" });
-      } else {
-        return res.status(200).json({ message: "password has been changed" });
-      }
+    return res.json({
+      message: 'password updated succesfully',
+      success: true
     });
-  });
+
+  } catch (err) {
+    return res.status(500).json({
+      error: "There was an error",
+      success: false
+    });
+  }
 };
 
 const getUser = async (req, res) => {
