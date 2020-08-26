@@ -200,7 +200,7 @@ const resetPasswordwithOldPassword = async (req, res) => {
 
     });
 
-    user.password = newpassword
+    user.password = newPassword
     await user.save();
 
     return res.json({
