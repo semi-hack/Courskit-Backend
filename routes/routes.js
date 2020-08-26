@@ -50,7 +50,7 @@ router.patch('/user/register/course', userController.RegisterCourse);
 router.route('/user/image').patch(parser.single('image'), userController.UpdateUserImage)
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', user.resetPassword);
-router.post('/profile/resetPassword', user.resetPasswordwithOldPassword);
+router.patch('/profile/resetPassword', user.resetPasswordwithOldPassword);
 router.get('/user/getCourse/id', courseController.GetCourseById)
 router.get('/user/getCourse/search', courseController.search);
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
