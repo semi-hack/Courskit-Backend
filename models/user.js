@@ -41,7 +41,8 @@ const UserSchema = new Schema({
         default: ''
     },
     image: {
-        type: String
+        type: String,
+        default: ''
     },
     maxUnit: {
         type: Number,
