@@ -21,7 +21,7 @@ const DiscussionSchema = new Schema({
         required: true
     },
     createdBy: {
-        type: mongoose.Types.ObjectId, 
+        type: mongoose.Types.ObjectId, ref: 'User'
     },
     details: {
         type: String,

@@ -24,9 +24,8 @@ app.use(router);
 io.on('connection', (socket) => {
     console.log("user connected")
 
-    socket.on('topic', async discussiondata => {
-        console.log(data)
-        socket.broadcast.emit("new_discussion", discussiondata)
+    socket.on('topic', data => {
+        socket.broadcast.emit("new_discussion", data)
     })
 
 
