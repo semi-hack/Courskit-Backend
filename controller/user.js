@@ -269,7 +269,7 @@ const UpdateUserImage = async (req, res) => {
   const image = {};
   const UpdatedUserImage = await User.findByIdAndUpdate(req.headers._id, {
     $set: { "image": req.file.path },
-  });
+  }, { new: true });
   if (!UpdatedUserImage) {
     res.status(400).json({
       message: "failed",
