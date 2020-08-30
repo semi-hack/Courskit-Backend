@@ -31,8 +31,8 @@ const CourseSchema = new Schema({
         validator: [colorValidator, 'Invalid color'],
         required: true
     },
-    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: ''},
-    venue: {type: Schema.Types.ObjectId, ref: 'room', default: ''},
+    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer' },
+    venue: {type: Schema.Types.ObjectId, ref: 'room'},
     time: {
         type: String,
         required: true
