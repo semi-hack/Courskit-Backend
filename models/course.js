@@ -18,7 +18,7 @@ const CourseSchema = new Schema({
         required: true
     },
     day: {
-        type: String
+        type: [String]
     },
     description: {
         type: String
@@ -31,8 +31,8 @@ const CourseSchema = new Schema({
         validator: [colorValidator, 'Invalid color'],
         required: true
     },
-    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: null},
-    venue: {type: Schema.Types.ObjectId, ref: 'room'},
+    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer', default: ''},
+    venue: {type: Schema.Types.ObjectId, ref: 'room', default: ''},
     time: {
         type: String,
         required: true
