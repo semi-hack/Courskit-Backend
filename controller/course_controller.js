@@ -98,7 +98,7 @@ const GetCourseByLevel = async(req, res) => {
 //update a course
 const UpdateCourse = async (req, res) => {
     const { _id } = req.headers
-    const UpdatedCourse = await Course.findByIdAndUpdate(req.headers._id, {$set: req.body});
+    const UpdatedCourse = await Course.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
     if (!UpdatedCourse) {
         res.status(400).json({
             message: "failed to update"

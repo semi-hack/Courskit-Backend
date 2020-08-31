@@ -236,7 +236,8 @@ const getUser = async (req, res) => {
     } else {
       res.status(200).json({
         title: "user granted",
-        message: user,
+        message: "user is logged in",
+        data: user,
       });
     }
   } catch (err) {
@@ -257,7 +258,7 @@ const UpdateUser = async (req, res) => {
       { path: "lecturer", model: "Lecturer" },
       { path: "venue", model: "room" },
     ],
-  });
+  }, { new: true });
   if (!UpdatedUser) {
     res.status(400).json({
       message: "failed to update",
@@ -265,7 +266,7 @@ const UpdateUser = async (req, res) => {
   } else {
     res.json({
       success: true,
-      message: UpdatedUser,
+      data: UpdatedUser,
     });
   }
 };
@@ -283,7 +284,7 @@ const UpdateUserImage = async (req, res) => {
   } else {
     res.json({
       success: true,
-      message: UpdatedUserImage,
+      data: UpdatedUserImage,
     });
   }
 };
@@ -301,7 +302,7 @@ const RegisterCourse = async (req, res) => {
       { path: "lecturer", model: "Lecturer" },
       { path: "venue", model: "room" },
     ],
-  });
+  }, { new: true });
   if (!UpdatedUser) {
     res.status(400).json({
       message: "failed to update",
@@ -309,7 +310,7 @@ const RegisterCourse = async (req, res) => {
   } else {
     res.json({
       success: true,
-      message: UpdatedUser,
+      data: UpdatedUser,
     });
   }
 };
