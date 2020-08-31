@@ -25,6 +25,7 @@ io.on('connection', (socket) => {
     console.log("user connected")
 
     socket.on('topic', params => {
+        console.log(params)
         socket.broadcast.emit("new_discussion", params)
     })
 
