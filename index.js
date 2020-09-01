@@ -26,8 +26,8 @@ io.on('connection', (socket) => {
 
     socket.on('topic', async params => {
         console.log(params)
-        const topic = await ADD_Discussion(params)
-        io.emit("new_discussion", topic)
+        const data = await ADD_Discussion(params)
+        io.emit("new_discussion", data)
     })
 
 

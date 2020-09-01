@@ -7,9 +7,7 @@ module.exports = {
     ADD_Discussion : async params => {
         const discuss = await Discussion.findOne({ title: params.title}).exec()
         if(discuss) {
-            return res.status(401).json({
-                message: "title exists"
-            });
+            return { error: "title exists" }
         }
         const newDiscussion = await new Discussion({
             title: params.title,
