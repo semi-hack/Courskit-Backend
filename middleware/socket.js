@@ -4,11 +4,16 @@ const { Comment } = require('../models/discussion');
 const { isValidObjectId } = require('mongoose');
 
 module.exports = {
-    ADD_Discussion : async data => {
+    ADD_Discussion : async params => {
         const newDiscussion = await new Discussion({
-            title: data.title,
-            details: data.details
+            title: params.title,
+            details: params.details,
+            createdBy: params.createdBy
         }).save();
+
+        return Discussion.populate(newDiscussion, {
+            path: 'createdBy'
+        });
     },
     ADD_Comment : async data => {
         var comment = {message: data.message, userId: data.userId, _id: data._id}
