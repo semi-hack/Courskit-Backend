@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     socket.on('topic', async params => {
         console.log(params)
         const topic = await ADD_Discussion(params)
-        socket.broadcast.emit("new_discussion", topic)
+        io.emit("new_discussion", topic)
     })
 
 
