@@ -15,7 +15,7 @@ module.exports = {
             createdBy: params.createdBy
         }).save();
 
-        return Discussion.populate(newDiscussion, {
+        return Discussion.populate(Discussion, {
             path: 'createdBy'
         });
     },
