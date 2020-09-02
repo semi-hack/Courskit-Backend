@@ -89,7 +89,7 @@ const getLecturerById = async (req, res) => {
 
 const UpdateLecturer = async (req, res) => {
     const { _id } = req.headers
-    const UpdatedLecturer = await Lecturer.findByIdAndUpdate(req.headers._id, {$set: req.body});
+    const UpdatedLecturer = await Lecturer.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
     if (!UpdatedLecturer) {
         res.status(400).json({
             message: "failed to update"
@@ -119,6 +119,44 @@ const UploadImage = async (req, res) => {
     }
 
 }
+
+// reset password lecturer
+const resetPasswordwithOldPassword = async (req, res) => {
+    const { _id } = req.headers
+    const { oldPassword, newPassword } = req.body;
+  
+    try {
+      const lecturer = await Lecturer.findOne({ _id: req.headers._id }).exec();
+      if(!lecturer) {
+        return res.status(401).json({
+          success: false, error: 'lecturer doesnt exist'
+        });
+      }
+  
+      lecturer.comparePassword(req.body.oldPassword, (err, match) => {
+        if (!match) {
+          return res
+            .status(400)
+            .json({ success: false, message: "The password is invalid" });
+        } 
+  
+      });
+  
+      lecturer.password = newPassword
+      await lecturer.save();
+  
+      return res.json({
+        message: 'password updated succesfully',
+        success: true
+      });
+  
+    } catch (err) {
+      return res.status(500).json({
+        error: "There was an error",
+        success: false
+      });
+    }
+};
 
 // delete a lecturer
 const Deletelecturer = async (req, res) => {

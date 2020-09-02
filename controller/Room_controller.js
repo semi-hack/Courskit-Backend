@@ -48,7 +48,7 @@ const GetAllRooms = async (req, res) => {
 
 //update a room
 const updateRoom = async (req, res) => {
-    const UpdateRoom = await Room.findByIdAndUpdate(req.params.id, {$set: req.body});
+    const UpdateRoom = await Room.findByIdAndUpdate(req.params.id, {$set: req.body}, { new: true });
     if (!UpdateRoom) {
         res.status(400).json({
             message: "failed to update"
