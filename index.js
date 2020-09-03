@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     socket.on('topic', async params => {
         console.log(params)
         const data = await ADD_Discussion(params)
-        io.emit("new_discussion", data)
+        io.emit("new_discussion", JSON.stringify(data))
     })
 
 
