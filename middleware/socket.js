@@ -4,7 +4,7 @@ const { Comment } = require('../models/discussion');
 const { isValidObjectId } = require('mongoose');
 
 module.exports = {
-    discussion: async () => {
+    discussion: async() => {
         const discuss = await Discussion.find({}).populate('createdBy')
         return discuss
     },

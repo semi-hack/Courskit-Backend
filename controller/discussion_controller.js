@@ -25,7 +25,7 @@ const createDiscussion = async (req, res) => {
         
         return res.json({
             success: true,
-            data: updated
+            data: updated.populate('createdBy')
         });
     } catch (error) {
         return res.status(500).json({
