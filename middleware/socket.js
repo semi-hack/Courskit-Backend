@@ -5,10 +5,8 @@ const { isValidObjectId } = require('mongoose');
 
 module.exports = {
     discussion: async () => {
-        const discuss = await Discussion.find({})
-        return Discussion.populate(discuss, {
-            path: 'createdBy'
-        });
+        const discuss = await Discussion.find({}).populate('createdBy')
+        return discuss
     },
     ADD_Discussion : async params => {
         const discuss = await Discussion.findOne({ title: params.title}).exec()
