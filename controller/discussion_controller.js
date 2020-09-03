@@ -6,10 +6,10 @@ const { callbackPromise } = require('nodemailer/lib/shared');
 
 
 const createDiscussion = async (req, res) => {
-    const { title, details, createdBy } = req.params
+    const { title, details, createdBy } = req.body
 
     try {
-        const discuss = await Discussion.findOne({ title: req.params.title}).exec()
+        const discuss = await Discussion.findOne({ title: req.body.title}).exec()
         if(discuss) {
             return res.status(401).json({
                 message: "title exists"
@@ -20,12 +20,13 @@ const createDiscussion = async (req, res) => {
             details,
             createdBy
         });
+
         
         const updated = await discussion.save()
         
         return res.json({
             success: true,
-            data: updated.populate('createdBy')
+            data: updated
         });
     } catch (error) {
         return res.status(500).json({
