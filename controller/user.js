@@ -258,7 +258,7 @@ const UpdateUser = async (req, res) => {
       { path: "lecturer", model: "Lecturer" },
       { path: "venue", model: "room" },
     ],
-  }, { new: true });
+  });
   if (!UpdatedUser) {
     res.status(400).json({
       message: "failed to update",
