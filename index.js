@@ -14,7 +14,7 @@ const app = express()
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const PORT = process.env.PORT || 4440
-const { ADD_Discussion } = require("./middleware/socket");
+const { ADD_Discussion, discussion } = require("./middleware/socket");
 const { Discussion } = require('./models/discussion');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +23,8 @@ app.use(router);
 
 io.on('connection', (socket) => {
     console.log("user connected")
+    const data = discussion()
+    io.emit("allDiscussion", data)
 
     socket.on('topic', async params => {
         console.log(params)

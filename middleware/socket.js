@@ -4,6 +4,12 @@ const { Comment } = require('../models/discussion');
 const { isValidObjectId } = require('mongoose');
 
 module.exports = {
+    discussion: async () => {
+        const discuss = await Discussion.find({})
+        return Discussion.populate(discuss, {
+            path: 'createdBy'
+        });
+    },
     ADD_Discussion : async params => {
         const discuss = await Discussion.findOne({ title: params.title}).exec()
         if(discuss) {
@@ -15,7 +21,7 @@ module.exports = {
             createdBy: params.createdBy
         }).save();
 
-        return Discussion.populate(Discussion, {
+        return Discussion.populate(newDiscussion, {
             path: 'createdBy'
         });
     },
