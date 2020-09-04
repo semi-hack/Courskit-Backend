@@ -56,6 +56,7 @@ router.get('/user/getCourse/search', courseController.search);
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
 router.post('/user/discussion', discussionController.createDiscussion);
+router.get('/user/discussion/all', discussionController.getAllDiscussion);
 router.put('/user/comment', discussionController.comment);
 
 

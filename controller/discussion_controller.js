@@ -36,6 +36,21 @@ const createDiscussion = async (req, res) => {
     }
 }
 
+const getAllDiscussion = async (req, res) => {
+    const discussion = await Discussion.find({}).populate('createdBy')
+    if (discussion) {
+        return res.status(200).json({
+            success: true,
+            data: discussion
+        });
+    } else {
+        return res.status(404).json({
+            success: false,
+            error: "no course found"
+        })
+    }
+}
+
 
 const comment = async (req, res) => {
     const { _id } = req.headers
@@ -72,4 +87,4 @@ const comment = async (req, res) => {
 // }
 
 
-module.exports = {createDiscussion, comment }
+module.exports = {createDiscussion, getAllDiscussion, comment }
