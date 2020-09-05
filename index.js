@@ -23,9 +23,6 @@ app.use(router);
 
 io.on('connection', (socket) => {
     console.log("user connected")
-    const data = discussion()
-    console.log(data)
-    io.emit("allDiscussion", data)
 
     socket.on('topic', async params => {
         console.log(params)

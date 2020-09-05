@@ -78,13 +78,36 @@ const comment = async (req, res) => {
     
 }
 
-// const updateDiscussion = async(req, res) => {
-//     const {}
-// }
+const updateDiscussion = async(req, res) => {
+    const { _id } = req.headers;
+    const updateDiscussion = await Discussion.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
+    if (!updateDiscussion) {
+        res.status(400).json({
+            message: "failed to update"
+        });
+    } else {
+        res.json({
+            success: true,
+            message: updateDiscussion
+        });
+    }
+}
 
-// const deleteDiscussion = async (req, res) => {
+const deleteDiscussion = async (req, res) => {
+    const { _id } = req.headers;
+    try {
+        const data = await Discussion.findOneAndDelete({ _id: req.headers._id});
+        if (!data) {
+            res.status(404).json({ success: false, message: 'not found' });
+            return;
+        }
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error)
+    }
 
-// }
+}
 
 
-module.exports = {createDiscussion, getAllDiscussion, comment }
+module.exports = {createDiscussion, getAllDiscussion, updateDiscussion, deleteDiscussion,  comment }

@@ -57,6 +57,8 @@ router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
 router.post('/user/discussion', discussionController.createDiscussion);
 router.get('/user/discussion/all', discussionController.getAllDiscussion);
+router.patch('/user/discussion/update', discussionController.updateDiscussion);
+router.delete('/user/discussion/delete', discussionController.deleteDiscussion);
 router.put('/user/comment', discussionController.comment);
 
 
