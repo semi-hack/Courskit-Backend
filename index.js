@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const router = require('./routes/routes');
-
+const cors = require('cors');
 
 require('dotenv').config();
 connectDB();
@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 4440
 const { ADD_Discussion, discussion } = require("./middleware/socket");
 const { Discussion } = require('./models/discussion');
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(router);

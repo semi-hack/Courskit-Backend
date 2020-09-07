@@ -7,12 +7,20 @@ const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
 const { nanoid, customAlphabet } = require("nanoid");
 const bcrypt = require("bcrypt");
+const Pusher = require('pusher');
 var _ = require("lodash");
 const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
+require('dotenv').config();
 
-//const { doesNotMatch } = require("assert");
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
+  cluster: process.env.PUSHER_APP_CLUSTER,
+  encrypted: true
+})
 
 const login = async (req, res) => {
   const { matric, password } = req.body;
@@ -118,6 +126,7 @@ const signup = async (req, res) => {
     });
 
     await user.save();
+    pusher.trigger('notifications', 'newUser', user, req.headers['x-socket-id'])
     return res.status(200).json({
       success: true,
       data: user,
