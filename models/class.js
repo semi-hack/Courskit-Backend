@@ -8,8 +8,7 @@ const ClassSchema = new Schema({
     },
     Courses: [{ type: Schema.Types.ObjectId, ref: 'Course'}],
     AcademicPeriod: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId, ref: 'Period'
     },
     Meeting: {
         type: String,
@@ -25,6 +24,6 @@ const ClassSchema = new Schema({
     }
 });
 
-const Class = mongoose.model("Class", ClassSchema)
+const Klass = mongoose.model("Klass", ClassSchema)
 
-module.exports = { Class }
+module.exports = { Klass }

@@ -5,6 +5,7 @@ const LecturerController = require('../controller/lecturer_controller');
 const courseController = require('../controller/course_controller');
 const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
+const classController = require('../controller/class_controller');
 const discussionController = require('../controller/discussion_controller');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
@@ -36,9 +37,16 @@ router.delete('/Admin/course/delete', courseController.DeleteCourse);
 
 router.post('/Admin/period', periodController.createPeriod);
 router.get('/Admin/getPeriod', periodController.getAllPeriods);
-//router.patch('/Admin/period/update', periodController)
+router.patch('/Admin/period/update', periodController.updatePeriod);
 router.delete('/Admin/period/delete', periodController.DeletePeriod);
 
+
+router.post('/Admin/class/create', classController.createclass);
+router.get('/Admin/class/all', classController.getClass);
+router.patch('/Admin/class/update', classController.UpdateClass);
+router.delete('/Admin/class/delete', classController.DeleteClass);
+
+router.get('/Admin/students/all', userController.GetAllUsers);
 
 //User Routes
 router.get('/verifySchool', userController.checkExistence);

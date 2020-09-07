@@ -139,9 +139,9 @@ const search = async(req, res) => {
 // delete a Course
 const DeleteCourse = async (req, res) => {
 
-    const { id } = req.body;
+    const { _id } = req.headers;
     try {
-        const data = await Course.findOneAndDelete({ _id: req.body.id});
+        const data = await Course.findOneAndDelete({ _id: req.headers._id});
         if (!data) {
             res.status(404).json({ success: false, message: 'not found' });
             return;

@@ -247,6 +247,22 @@ const getUser = async (req, res) => {
   }
 };
 
+// get all courses
+const GetAllUsers = async (req, res) => {
+  const users = await User.find({})
+  if (userss) {
+    return res.status(200).json({
+        success: true,
+        data: users
+     });
+  } else {
+    return res.status(404).json({
+      error: "no course found",
+    });
+  }
+};
+
+
 // Update User
 const UpdateUser = async (req, res) => {
   const { _id } = req.headers;
@@ -344,6 +360,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getUser,
+  GetAllUsers,
   UpdateUser,
   UpdateUserImage,
   RegisterCourse,

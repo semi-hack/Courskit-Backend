@@ -52,7 +52,7 @@ const getAllPeriods = async (req, res) => {
     } else {
       res.status(200).json({
         success: true,
-        data,
+        data:data,
       });
     }
   } catch (error) {
@@ -61,11 +61,26 @@ const getAllPeriods = async (req, res) => {
   }
 };
 
+const updatePeriod = async(req, res) => {
+  const { _id } = req.headers
+  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
+  if (!UpdatedPeriod) {
+      res.status(400).json({
+          message: "failed to update"
+      });
+  } else {
+      res.json({
+          success: true,
+          message: UpdatedPeriod
+      });
+  }
+}
+
 // delete a period
 const DeletePeriod = async (req, res) => {
-  const { id } = req.body;
+  const { _id } = req.headers;
   try {
-    const data = await Period.findOneAndDelete({ _id: req.body.id });
+    const data = await Period.findOneAndDelete({ _id: req.headers._id });
     if (!data) {
       res.status(404).json({ success: false, message: "not found" });
       return;
@@ -76,4 +91,4 @@ const DeletePeriod = async (req, res) => {
     res.status(500).json(error);
   }
 };
-module.exports = { createPeriod, getAllPeriods, DeletePeriod };
+module.exports = { createPeriod, getAllPeriods, updatePeriod, DeletePeriod };
