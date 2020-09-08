@@ -22,11 +22,13 @@ const createDiscussion = async (req, res) => {
         });
 
         
-        const updated = await discussion.save()
+        await discussion.save()
+
+        const data = await Discussion.findOne({ title: req.body.title}).populate('createdBy')
         
         return res.json({
             success: true,
-            data: updated
+            data: data
         });
     } catch (error) {
         return res.status(500).json({
