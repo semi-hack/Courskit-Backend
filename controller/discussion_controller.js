@@ -6,7 +6,8 @@ const { callbackPromise } = require('nodemailer/lib/shared');
 
 
 const createDiscussion = async (req, res) => {
-    const { title, details, createdBy } = req.body
+    const { createdBy } = req.headers
+    const { title, details } = req.body
 
     try {
         const discuss = await Discussion.findOne({ title: req.body.title}).exec()
