@@ -5,7 +5,7 @@ const Course = require("../models/course");
 
 // create a course
 const createCourse = async (req, res) => {
-  const { name, code, unit, time, day, venue, description, level } = req.body;
+  const { name, code, unit, time, day, venue, description, lecturer, level } = req.body;
 
   try {
     const existingcourse = await Course.findOne({ name: req.body.name }).exec();
@@ -26,10 +26,11 @@ const createCourse = async (req, res) => {
         venue,
         description,
         level,
+        lecturer,
         colorCode
     });
     await course.save(() => {
-      Course.findOne({name : req.body.name}).populate('venue')
+      Course.findOne({name : req.body.name}).populate('venue').populate('lecturer')
       .exec((err, course) => {
         console.log(course.venue.name)
       });
