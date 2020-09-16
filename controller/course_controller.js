@@ -31,7 +31,7 @@ const createCourse = async (req, res) => {
     });
     await course.save()
 
-    const data = Course.findOne({name : req.body.name}).populate('lecturer')
+    const data = await Course.findOne({name : req.body.name}).populate('lecturer')
 
     return res.json({
       success: true,
