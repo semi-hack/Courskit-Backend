@@ -29,16 +29,13 @@ const createCourse = async (req, res) => {
         lecturer,
         colorCode
     });
-    await course.save(() => {
-      Course.findOne({name : req.body.name}).populate('venue').populate('lecturer')
-      .exec((err, course) => {
-        console.log(course.venue.name)
-      });
-    });
+    await course.save()
+
+    const data = Course.findOne({name : req.body.name}).populate('venue').populate('lecturer')
 
     return res.json({
         success: true,
-        data: course,
+        data: data,
     });
   } catch (error) {
     return res.status(500).json({
