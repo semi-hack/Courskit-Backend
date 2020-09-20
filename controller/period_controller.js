@@ -42,7 +42,7 @@ const createPeriod = async (req, res) => {
 
 const getAllPeriods = async (req, res) => {
   try {
-    const data = await Period.find({});
+    const data = await Period.find({}).populate('course');
     if (!data) {
       res.status(404).json({
         success: false,
@@ -63,7 +63,7 @@ const getAllPeriods = async (req, res) => {
 
 const updatePeriod = async(req, res) => {
   const { _id } = req.headers
-  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
+  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true }).populate('course');
   if (!UpdatedPeriod) {
       res.status(400).json({
           message: "failed to update"
