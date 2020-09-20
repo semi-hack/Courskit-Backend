@@ -23,14 +23,13 @@ const createPeriod = async (req, res) => {
       endTime,
     });
 
-    await period.save((err) => {
-        period.populate("course", (err) => {
-            console.log(period.course)
-        })
-    })
+    await period.save()
+
+    const data = await Period.findOne({ course: req.body.course }).populate('course')
+
     return res.json({
       success: true,
-      data: period,
+      data: data,
     });
   } catch (error) {
     return res.status(500).json({

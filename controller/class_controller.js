@@ -24,9 +24,12 @@ const createclass = async (req, res) => {
             UnavailableRooms
         });
         await classes.save()
+
+        const data = await Klass.findOne({ name: req.body.name}).populate('Courses')
+        
         return res.json({
             success: true,
-            data: classes
+            data: data
         });
     } catch (error) {
         return res.status(500).json({
