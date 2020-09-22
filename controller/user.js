@@ -269,7 +269,7 @@ const GetAllUsers = async (req, res) => {
       { path: "venue", model: "room" },
     ],
   });
-  
+
   if (users) {
     return res.status(200).json({
       success: true,
@@ -410,7 +410,7 @@ const checkExistence = async (req, res) => {
 const DeleteStudent = async (req, res) => {
   const { _id } = req.headers;
   try {
-    const data = await User.findOneAndDelete({ _id: req.headers.id });
+    const data = await User.findOneAndDelete({ _id: req.headers._id });
     if (!data) {
       res.status(404).json({ success: false, message: "not found" });
       return;
