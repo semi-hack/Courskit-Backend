@@ -47,6 +47,8 @@ router.patch('/Admin/class/update', classController.UpdateClass);
 router.delete('/Admin/class/delete', classController.DeleteClass);
 
 router.get('/Admin/students/all', userController.GetAllUsers);
+router.patch('/Admin/students/update', userController.UpdateUser);
+router.delete('/Admin/students/delete', userController.DeleteStudent);
 
 //User Routes
 router.get('/verifySchool', userController.checkExistence);

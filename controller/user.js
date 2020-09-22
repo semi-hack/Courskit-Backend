@@ -258,7 +258,7 @@ const getUser = async (req, res) => {
 // get all courses
 const GetAllUsers = async (req, res) => {
   const users = await User.find({})
-  if (userss) {
+  if (users) {
     return res.status(200).json({
         success: true,
         data: users
@@ -379,6 +379,22 @@ const checkExistence = async (req, res) => {
   }
 };
 
+const DeleteStudent = async (req, res) => {
+
+  const { _id } = req.headers;
+  try {
+      const data = await User.findByIdAndDelete({ _id: req.headers.id});
+      if (!data) {
+          res.status(404).json({ success: false, message: 'not found' });
+          return;
+      }
+      res.json({ success: true });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json(error)
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -391,4 +407,5 @@ module.exports = {
   RegisterCourse,
   checkExistence,
   resetPasswordwithOldPassword,
+  DeleteStudent
 };
