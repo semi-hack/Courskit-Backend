@@ -161,9 +161,9 @@ const resetPasswordwithOldPassword = async (req, res) => {
 // delete a lecturer
 const Deletelecturer = async (req, res) => {
 
-    const { id } = req.body;
+    const { _id } = req.headers;
     try {
-        const data = await Room.findOneAndDelete({ _id: req.body.id});
+        const data = await Lecturer.findOneAndDelete({ _id: req.headers._id});
         if (!data) {
             res.status(404).json({ success: false, message: 'not found' });
             return;

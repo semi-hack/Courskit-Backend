@@ -295,6 +295,23 @@ const UpdateUser = async (req, res) => {
   }
 };
 
+// const combinedUpdate = async (req, res) => {
+//   const { _id } = req.headers;
+//   const update = {
+//     firstname: req.body.firstname,
+//     lastname: req.body.lastname,
+//     email: req.body.email,
+//     file: req.file.path
+//   }
+
+//   try {
+//       const UpdatedUserI = await User.findByIdAndUpdate(req.headers._id, {
+//         $set: { "image": req.file.path },
+//       }, { new: true });
+//   }
+
+// }
+
 const UpdateUserImage = async (req, res) => {
   console.log(req.file);
   const image = {};
@@ -349,7 +366,7 @@ const checkExistence = async (req, res) => {
         data:
           "https://res.cloudinary.com/duqphnggn/image/upload/v1596850732/mtu_ljd7ex.jpg",
       });
-    } else {
+    } else { 
       res.status(404).json({
         success: false,
       });
