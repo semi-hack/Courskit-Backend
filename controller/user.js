@@ -7,19 +7,20 @@ const { secret } = require("../config/helper");
 const { transporter } = require("../config/nodemailer");
 const { nanoid, customAlphabet } = require("nanoid");
 const bcrypt = require("bcrypt");
-const Pusher = require('pusher');
+const Pusher = require("pusher");
 var _ = require("lodash");
 const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
-require('dotenv').config();
+const { json } = require("express");
+require("dotenv").config();
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_APP_KEY,
   secret: process.env.PUSHER_APP_SECRET,
   cluster: process.env.PUSHER_APP_CLUSTER,
-})
+});
 
 const login = async (req, res) => {
   const { matric, password } = req.body;
@@ -125,7 +126,12 @@ const signup = async (req, res) => {
     });
 
     await user.save();
-    pusher.trigger('notifications', 'newUser', user, req.headers['x-socket-id'])
+    pusher.trigger(
+      "notifications",
+      "newUser",
+      user,
+      req.headers["x-socket-id"]
+    );
     return res.status(200).json({
       success: true,
       data: user,
@@ -188,14 +194,15 @@ const resetPassword = (req, res) => {
 };
 
 const resetPasswordwithOldPassword = async (req, res) => {
-  const { _id } = req.headers
+  const { _id } = req.headers;
   const { oldPassword, newPassword } = req.body;
 
   try {
     const user = await User.findOne({ _id: req.headers._id }).exec();
-    if(!user) {
+    if (!user) {
       return res.status(401).json({
-        success: false, error: 'invalid user'
+        success: false,
+        error: "invalid user",
       });
     }
 
@@ -204,22 +211,20 @@ const resetPasswordwithOldPassword = async (req, res) => {
         return res
           .status(400)
           .json({ success: false, message: "The password is invalid" });
-      } 
-
+      }
     });
 
-    user.password = newPassword
+    user.password = newPassword;
     await user.save();
 
     return res.json({
-      message: 'password updated succesfully',
-      success: true
+      message: "password updated succesfully",
+      success: true,
     });
-
   } catch (err) {
     return res.status(500).json({
       error: "There was an error",
-      success: false
+      success: false,
     });
   }
 };
@@ -257,12 +262,19 @@ const getUser = async (req, res) => {
 
 // get all courses
 const GetAllUsers = async (req, res) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate({
+    path: "courses",
+    populate: [
+      { path: "lecturer", model: "Lecturer" },
+      { path: "venue", model: "room" },
+    ],
+  });
+  
   if (users) {
     return res.status(200).json({
-        success: true,
-        data: users
-     });
+      success: true,
+      data: users,
+    });
   } else {
     return res.status(404).json({
       error: "no course found",
@@ -270,13 +282,16 @@ const GetAllUsers = async (req, res) => {
   }
 };
 
-
 // Update User
 const UpdateUser = async (req, res) => {
   const { _id } = req.headers;
-  const UpdatedUser = await User.findByIdAndUpdate(req.headers._id, {
-    $set: req.body,
-  },{ new: true }).populate({
+  const UpdatedUser = await User.findByIdAndUpdate(
+    req.headers._id,
+    {
+      $set: req.body,
+    },
+    { new: true }
+  ).populate({
     path: "courses",
     populate: [
       { path: "lecturer", model: "Lecturer" },
@@ -295,29 +310,42 @@ const UpdateUser = async (req, res) => {
   }
 };
 
-// const combinedUpdate = async (req, res) => {
-//   const { _id } = req.headers;
-//   const update = {
-//     firstname: req.body.firstname,
-//     lastname: req.body.lastname,
-//     email: req.body.email,
-//     file: req.file.path
-//   }
+const combinedUpdate = async (req, res) => {
+  const { _id } = req.headers;
+  const image = {};
+  console.log(req.body);
 
-//   try {
-//       const UpdatedUserI = await User.findByIdAndUpdate(req.headers._id, {
-//         $set: { "image": req.file.path },
-//       }, { new: true });
-//   }
+  const CompleteUpdatedUser = await User.findByIdAndUpdate(
+    req.headers._id,
+    {
+      $set: { "image" : req.file.path, "lastname": req.body.lastname, "firstname": req.body.firstname, "email": req.body.email }
+    },
+    { new: true }
+  );
 
-// }
+  if (!CompleteUpdatedUser) {
+    res.status(400).json({
+      message: "failed",
+    });
+  } else {
+    res.
+      json({
+        success: true,
+        data: CompleteUpdatedUser,
+      });
+  }
+};
 
 const UpdateUserImage = async (req, res) => {
   console.log(req.file);
   const image = {};
-  const UpdatedUserImage = await User.findByIdAndUpdate(req.headers._id, {
-    $set: { "image": req.file.path },
-  }, { new: true });
+  const UpdatedUserImage = await User.findByIdAndUpdate(
+    req.headers._id,
+    {
+      $set: { image: req.file.path },
+    },
+    { new: true }
+  );
   if (!UpdatedUserImage) {
     res.status(400).json({
       message: "failed",
@@ -366,7 +394,7 @@ const checkExistence = async (req, res) => {
         data:
           "https://res.cloudinary.com/duqphnggn/image/upload/v1596850732/mtu_ljd7ex.jpg",
       });
-    } else { 
+    } else {
       res.status(404).json({
         success: false,
       });
@@ -380,18 +408,17 @@ const checkExistence = async (req, res) => {
 };
 
 const DeleteStudent = async (req, res) => {
-
   const { _id } = req.headers;
   try {
-      const data = await User.findByIdAndDelete({ _id: req.headers.id});
-      if (!data) {
-          res.status(404).json({ success: false, message: 'not found' });
-          return;
-      }
-      res.json({ success: true });
+    const data = await User.findOneAndDelete({ _id: req.headers.id });
+    if (!data) {
+      res.status(404).json({ success: false, message: "not found" });
+      return;
+    }
+    res.json({ success: true });
   } catch (error) {
-      console.log(error);
-      res.status(500).json(error)
+    console.log(error);
+    res.status(500).json(error);
   }
 };
 
@@ -403,9 +430,10 @@ module.exports = {
   getUser,
   GetAllUsers,
   UpdateUser,
+  combinedUpdate,
   UpdateUserImage,
   RegisterCourse,
   checkExistence,
   resetPasswordwithOldPassword,
-  DeleteStudent
+  DeleteStudent,
 };
