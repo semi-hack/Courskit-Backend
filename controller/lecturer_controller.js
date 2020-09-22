@@ -13,6 +13,7 @@ const createLecturer = async (req, res) => {
         phone_no,
         office_no,
         ranking,
+        degree,
         areaOfSpec
 
     } = req.body
@@ -26,6 +27,7 @@ const createLecturer = async (req, res) => {
             phone_no,
             office_no,
             ranking,
+            degree,
             areaOfSpec
         });
 
