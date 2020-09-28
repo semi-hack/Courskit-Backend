@@ -56,7 +56,9 @@ const UserSchema = new Schema({
         type: Number,
     },
     courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
-})
+},
+ { timestamps: true } 
+)
 
 UserSchema.pre('save', async function save(next) {
     //if (!this.isModified('password')) return next();
