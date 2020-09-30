@@ -4,31 +4,32 @@ const Lecturer = require('../models/lecturer');
 
 
 const createLecturer = async (req, res) => {
-    const {
-        name,
-        email,
-        unavailablePeriods,
-        courses,
-        education_bg,
-        phone_no,
-        office_no,
-        ranking,
-        degree,
-        areaOfSpec
+    // const {
+    //     name,
+    //     email,
+    //     unavailablePeriods,
+    //     courses,
+    //     education_bg,
+    //     phone_no,
+    //     office_no,
+    //     ranking,
+    //     degree,
+    //     areaOfSpec
 
-    } = req.body
-
+    // } = req.body
+    
     const lecturer = await Lecturer.create({
-            name,
-            email,
-            unavailablePeriods,
-            courses,
-            education_bg,
-            phone_no,
-            office_no,
-            ranking,
-            degree,
-            areaOfSpec
+            name: req.body.name,
+            email: req.body.email,
+            unavailablePeriods: req.body.unavailablePeriods,
+            courses: req.body.courses,
+            education_bg: req.body.education_bg,
+            phone_no: req.body.phone_no,
+            office_no: req.office_no,
+            ranking: req.body.ranking,
+            degree: req.body.degree,
+            areaOfSpec: req.body.areaOfSpec,
+            image: req.file.path
         });
 
         if (!lecturer) {

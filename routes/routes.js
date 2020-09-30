@@ -23,10 +23,11 @@ router.get('/Admin/room', roomController.GetAllRooms);
 router.patch('/Admin/room/:id', roomController.updateRoom);
 router.delete('/Admin/room/delete', roomController.DeleteRoom);
 
-router.post('/Admin/lecturer', LecturerController.createLecturer);
+//router.post('/Admin/lecturer', LecturerController.createLecturer);
 router.get('/Admin/getlecturer', LecturerController.getAllLecturer);
 router.patch('/Admin/lecturer/update', LecturerController.UpdateLecturer);
 router.delete('/Admin/lecturer/delete', LecturerController.Deletelecturer);
+router.route('/Admin/lecturer/image').post(parser.single('image'), LecturerController.createLecturer);
 router.route('/image').patch(parser.single('image'), LecturerController.UploadImage);
 
 

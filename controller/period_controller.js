@@ -62,7 +62,7 @@ const getAllPeriods = async (req, res) => {
 
 const updatePeriod = async(req, res) => {
   const { _id } = req.headers
-  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true }).populate('course');
+  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: {}}, { new: true }).populate('course');
   if (!UpdatedPeriod) {
       res.status(400).json({
           message: "failed to update"
