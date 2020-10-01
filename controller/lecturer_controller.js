@@ -25,7 +25,7 @@ const createLecturer = async (req, res) => {
             courses: req.body.courses,
             education_bg: req.body.education_bg,
             phone_no: req.body.phone_no,
-            office_no: req.office_no,
+            office_no: req.body.office_no,
             ranking: req.body.ranking,
             degree: req.body.degree,
             areaOfSpec: req.body.areaOfSpec,
