@@ -7,7 +7,7 @@ const { callbackPromise } = require('nodemailer/lib/shared');
 
 const createDiscussion = async (req, res) => {
     const { createdBy } = req.headers
-    const { title, details } = req.body
+    const { title, details, level } = req.body
 
     try {
         const discuss = await Discussion.findOne({ title: req.body.title}).exec()
@@ -19,6 +19,7 @@ const createDiscussion = async (req, res) => {
         const discussion = new Discussion({
             title,
             details,
+            level,
             createdBy
         });
 
@@ -50,6 +51,21 @@ const getAllDiscussion = async (req, res) => {
         return res.status(404).json({
             success: false,
             error: "no course found"
+        })
+    }
+}
+
+const getDiscussionByLevel = async (req, res) => {
+    const discussion = await Discussion.find({ level: req.body.level }).populate('createdBy')
+    if (discussion) {
+        return  res.status(200).json({
+            success: true,
+            data: discussion
+        });
+    } else {
+        return res.status(404).json({
+            success: false,
+            error: "not found"
         })
     }
 }
@@ -113,4 +129,4 @@ const deleteDiscussion = async (req, res) => {
 }
 
 
-module.exports = {createDiscussion, getAllDiscussion, updateDiscussion, deleteDiscussion,  comment }
+module.exports = {createDiscussion, getAllDiscussion, getDiscussionByLevel, updateDiscussion, deleteDiscussion,  comment }

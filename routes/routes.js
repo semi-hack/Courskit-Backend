@@ -7,6 +7,7 @@ const periodController = require('../controller/period_controller');
 const userController = require('../controller/user');
 const classController = require('../controller/class_controller');
 const discussionController = require('../controller/discussion_controller');
+const eventController = require("../controller/event");
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
@@ -67,11 +68,20 @@ router.get('/user/getCourse/id', courseController.GetCourseById)
 router.get('/user/getCourse/search', courseController.search);
 router.get('/user/level/getCourse', courseController.GetCourseByLevel)
 router.get('/user/getLecturer/id', LecturerController.getLecturerById)
+
+// Discussion routes
 router.post('/user/discussion', discussionController.createDiscussion);
 router.get('/user/discussion/all', discussionController.getAllDiscussion);
+router.get('/user/level/discussion', discussionController.getDiscussionByLevel);
 router.patch('/user/discussion/update', discussionController.updateDiscussion);
-router.delete('/user/discussion/delete', discussionController.deleteDiscussion);
 router.put('/user/comment', discussionController.comment);
+router.delete('/user/discussion/delete', discussionController.deleteDiscussion);
+
+// EVENT
+router.post('/user/event', eventController.createEvent);
+router.get('/user/events', eventController.getUserEvents);
+router.delete('/user/events/delete', eventController.deleteEvent);
+
 
 
 module.exports = router

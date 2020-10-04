@@ -31,6 +31,9 @@ const DiscussionSchema = new Schema({
         type: String,
         enum : ['private', 'public'],
     },
+    level: {
+        type: String
+    },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comments'}]
 },
  { timestamps: true }

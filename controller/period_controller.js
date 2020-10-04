@@ -62,8 +62,16 @@ const getAllPeriods = async (req, res) => {
 
 const updatePeriod = async(req, res) => {
   const { _id } = req.headers
-  const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: {}}, { new: true }).populate('course');
-  if (!UpdatedPeriod) {
+  const existingperiod = await Period.findOne({
+    course: req.body.course,
+  }).exec();
+  if (existingperiod) {
+    return res.status(401).json({
+      message: "course in period already exists",
+    });
+  } else {
+    const UpdatedPeriod = await Period.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true }).populate('course');
+    if (!UpdatedPeriod) {
       res.status(400).json({
           message: "failed to update"
       });
@@ -73,6 +81,8 @@ const updatePeriod = async(req, res) => {
           message: UpdatedPeriod
       });
   }
+  }
+  
 }
 
 // delete a period

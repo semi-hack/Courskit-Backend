@@ -3,6 +3,24 @@ const { Discussion } = require('../models/discussion');
 const { Comment } = require('../models/discussion');
 const { isValidObjectId } = require('mongoose');
 
+// const Server = require('socket.io');
+// const io = new Server();
+
+// var Socket = {
+//     emit: function (event, data) {
+//         console.log(event, data);
+//         io.sockets.emit(event, data);
+//     }
+// };
+
+// io.on("connection", function (socket) {
+//     console.log("A user connected");
+// });
+
+// exports.Socket = Socket;
+// exports.io = io;
+
+
 module.exports = {
     ADD_Discussion : async params => {
         const discuss = await Discussion.findOne({ title: params.title}).exec()

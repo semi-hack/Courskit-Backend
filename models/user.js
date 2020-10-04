@@ -60,6 +60,13 @@ const UserSchema = new Schema({
  { timestamps: true } 
 )
 
+const NotificationSchema = new Schema({
+    user: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+    details: {
+        type: String
+    }
+})
+
 UserSchema.pre('save', async function save(next) {
     //if (!this.isModified('password')) return next();
     try {
@@ -76,5 +83,6 @@ UserSchema.methods.comparePassword = function(plaintext, callback) {
 }
 
 const User = mongoose.model('User', UserSchema);
+const Notifications = mongoose.model('Notification', NotificationSchema);
 
-module.exports =  User
+module.exports =  User, Notifications
