@@ -8,15 +8,20 @@ const userController = require('../controller/user');
 const classController = require('../controller/class_controller');
 const discussionController = require('../controller/discussion_controller');
 const eventController = require("../controller/event");
+const admin = require('../controller/admin');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
 
 
-
 router.get('/', (req, res) => {
     res.send("welcome to home page");
 })
+
+//
+router.post('/admin/create', admin.signupAd);
+router.post('/admin/login', admin.adminlogin);
+router.get('/admin/loggedIn', admin.getAdmin);
 
 //Admin Routes
 router.post('/Admin/room', roomController.createRoom);

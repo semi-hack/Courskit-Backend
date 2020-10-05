@@ -14,15 +14,15 @@ const { nextTick } = require("process");
 const { error } = require("console");
 const { use } = require("bcrypt/promises");
 const { json } = require("express");
-const { Socket } = require("../index");
+const Socket  = require("../index");
 require("dotenv").config();
 
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER,
-});
+// const pusher = new Pusher({
+//   appId: process.env.PUSHER_APP_ID,
+//   key: process.env.PUSHER_APP_KEY,
+//   secret: process.env.PUSHER_APP_SECRET,
+//   cluster: process.env.PUSHER_APP_CLUSTER,
+// });
 
 const login = async (req, res) => {
   const { matric, password } = req.body;
@@ -95,16 +95,16 @@ const signup = async (req, res) => {
     });
 
 
-
-    await user.save();
     Socket.emit("newUser", user);
+    console.log("newUser", user)
+    await user.save();
 
-    pusher.trigger(
-      "notifications",
-      "newUser",
-      user,
-      req.headers["x-socket-id"]
-    );
+    // pusher.trigger(
+    //   "notifications",
+    //   "newUser",
+    //   user,
+    //   req.headers["x-socket-id"]
+    // );
     return res.status(200).json({
       success: true,
       data: user,
