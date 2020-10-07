@@ -56,7 +56,6 @@ const login = async (req, res) => {
   }
 };
 
-
 const signup = async (req, res) => {
   const {
     firstname,
@@ -95,9 +94,9 @@ const signup = async (req, res) => {
     });
 
 
-    Socket.emit("newUser", user);
-    console.log("newUser", user)
     await user.save();
+    global.io.emit("newUser", user);
+    console.log("newUser", user)
 
     // pusher.trigger(
     //   "notifications",
@@ -115,7 +114,74 @@ const signup = async (req, res) => {
       success: false,
     });
   }
-};
+}
+
+
+// module.exports = (io) => {
+//   return {
+//     signup : async (req, res) => {
+//       const {
+//         firstname,
+//         lastname,
+//         email,
+//         dob,
+//         level,
+//         matric,
+//         password,
+//         role,
+//       } = req.body;
+    
+//       try {
+//         const existingUser = await User.findOne({ matric: req.body.matric }).exec();
+//         if (existingUser) {
+//           return res.status(401).json({
+//             error: "account alrady exists",
+//             success: false,
+//           });
+//         }
+//         const course = await Course.find({ level: req.body.level })
+//           .populate("venue")
+//           .populate("lecturer");
+//         console.log(course);
+    
+//         const user = new User({
+//           firstname,
+//           lastname,
+//           email,
+//           dob,
+//           level,
+//           matric,
+//           password,
+//           role,
+//           courses: course,
+//         });
+    
+    
+//         await user.save();
+//         global.io.emit("newUser", user);
+//         console.log("newUser", user)
+
+//         // pusher.trigger(
+//         //   "notifications",
+//         //   "newUser",
+//         //   user,
+//         //   req.headers["x-socket-id"]
+//         // );
+//         return res.status(200).json({
+//           success: true,
+//           data: user,
+//         });
+//       } catch (error) {
+//         return res.status(500).json({
+//           error: "error while signing up",
+//           success: false,
+//         });
+//       }
+//     }
+//   }
+// }
+
+
 
 const forgotPassword = (req, res) => {
   const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 5);

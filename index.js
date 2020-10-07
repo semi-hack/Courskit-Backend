@@ -11,27 +11,14 @@ connectDB();
 
 /**Socket IO */
 const app = express()
-// const server = require('http').createServer(app);
-// const io = require('socket.io')(server);
 const server = require('http').createServer(app);
-const Server = require('socket.io');
-const io = new Server();
-
-var Socket = {
-    emit: function (event, data) {
-        console.log(event, data);
-        io.sockets.emit(event, data);
-    }
-};
+const io = require('socket.io').listen(server)
 
 io.on("connection", function (socket) {
     console.log("A user connected");
 });
 
-io.attach(server);
-
-exports.Socket = Socket;
-exports.io = io;
+global.io = io;
 
 
 const PORT = process.env.PORT || 4440

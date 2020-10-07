@@ -100,4 +100,5 @@ const DeletePeriod = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
 module.exports = { createPeriod, getAllPeriods, updatePeriod, DeletePeriod };
