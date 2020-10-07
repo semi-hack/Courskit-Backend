@@ -63,10 +63,9 @@ const adminlogin = async (req, res) => {
         }
       });
   
-      const token = jwt.sign({ _id: admin._id }, secret);
       return res.json({
         success: true,
-        data: token,
+        data: admin,
       });
     } catch (err) {
       return res.status(500).json({
@@ -78,9 +77,7 @@ const adminlogin = async (req, res) => {
 
 const getAdmin = async (req, res) => {
     try {
-      const token = req.headers.token;
-  
-      const decoded = jwt.verify(token, secret);
+      const { adminNumber,password, } = req.body
       const admin = await Admin.findOne({ _id: decoded._id })
   
       if (!admin) {
@@ -98,7 +95,7 @@ const getAdmin = async (req, res) => {
         message: "unauthorized",
       });
     }
-  };
+};
 
 module.exports = {
     signupAd,
