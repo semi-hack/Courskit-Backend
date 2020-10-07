@@ -27,8 +27,7 @@ const createEvent = async (req, res) => {
 };
 
 const getUserEvents = async (req, res) => {
-  const { _id } = req.headers;
-  const events = await Event.find({ user: req.headers._id });
+  const events = await Event.find({ });
   if (events) {
     return res.status(200).json({
       success: true,
