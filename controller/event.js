@@ -26,6 +26,29 @@ const createEvent = async (req, res) => {
   }
 };
 
+const getEventsByDate = async (req, res) => {
+  const { date } = req.body
+
+  try {
+    const event = await Event.findOne({ date: req.body.date })
+    if(event) {
+      return res.status(200).json({
+        success: true,
+        data: event
+      })
+    } else {
+      return res.status(404).json({
+        error: "not found",
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      error: "there was an error.",
+      success: false
+    })
+  }
+}
+
 const getUserEvents = async (req, res) => {
   const events = await Event.find({ });
   if (events) {
@@ -55,4 +78,4 @@ const deleteEvent = async (req, res) => {
     }
 }
 
-module.exports = { createEvent, getUserEvents, deleteEvent };
+module.exports = { createEvent, getEventsByDate, getUserEvents, deleteEvent };

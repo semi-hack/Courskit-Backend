@@ -85,6 +85,7 @@ router.delete('/user/discussion/delete', discussionController.deleteDiscussion);
 // EVENT
 router.post('/user/event', eventController.createEvent);
 router.get('/user/events', eventController.getUserEvents);
+router.get('/user/events/day', eventController.getEventsByDate);
 router.delete('/user/events/delete', eventController.deleteEvent);
 
 
