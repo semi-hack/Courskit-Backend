@@ -30,7 +30,7 @@ const getEventsByDate = async (req, res) => {
   const { date1 } = req.headers
 
   try {
-    const event = await Event.findOne({ date1: req.headers.date })
+    const event = await Event.find({ date: req.headers.date1 })
     if(event) {
       return res.status(200).json({
         success: true,
