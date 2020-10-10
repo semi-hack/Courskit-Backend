@@ -27,10 +27,10 @@ const createEvent = async (req, res) => {
 };
 
 const getEventsByDate = async (req, res) => {
-  const { date } = req.headers
+  const { date1 } = req.headers
 
   try {
-    const event = await Event.findOne({ date: req.headers.date })
+    const event = await Event.findOne({ date1: req.headers.date })
     if(event) {
       return res.status(200).json({
         success: true,
@@ -46,6 +46,30 @@ const getEventsByDate = async (req, res) => {
       error: "there was an error.",
       success: false
     })
+  }
+}
+
+const updateEvent = async (req, res) => {
+  const { _id } = req.headers
+
+  const existingEvent = await Event.findOne({ _id: req.headers._id })
+  if (existingEvent) {
+    res.status(401).json({
+      message: "already exists",
+    });
+  } else {
+    const updateEvent = await Event.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });
+    if (!updateEvent) {
+        res.status(400).json({
+            message: "failed to update"
+        });
+    } else {
+        res.json({
+            success: true,
+            message: updateEvent
+        });
+    }
+
   }
 }
 
@@ -78,4 +102,4 @@ const deleteEvent = async (req, res) => {
     }
 }
 
-module.exports = { createEvent, getEventsByDate, getUserEvents, deleteEvent };
+module.exports = { createEvent, getEventsByDate, updateEvent, getUserEvents, deleteEvent };
