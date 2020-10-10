@@ -59,7 +59,7 @@ router.delete('/Admin/students/delete', userController.DeleteStudent);
 
 //User Routes
 router.get('/verifySchool', userController.checkExistence);
-router.post('/signup', userController.signup);
+router.route('/signup').post(parser.single('image'), userController.signup);
 router.post('/login', userController.login);
 router.get('/user', userController.getUser);
 router.patch('/user/update', userController.UpdateUser);

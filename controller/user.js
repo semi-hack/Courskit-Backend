@@ -57,16 +57,6 @@ const login = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-  const {
-    firstname,
-    lastname,
-    email,
-    dob,
-    level,
-    matric,
-    password,
-    role,
-  } = req.body;
 
   try {
     const existingUser = await User.findOne({ matric: req.body.matric }).exec();
@@ -82,15 +72,16 @@ const signup = async (req, res) => {
     console.log(course);
 
     const user = new User({
-      firstname,
-      lastname,
-      email,
-      dob,
-      level,
-      matric,
-      password,
-      role,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      dob: req.body.dob,
+      level: req.body.level,
+      matric: req.body.matric,
+      password: req.body.firstname,
+      role: req.body.role,
       courses: course,
+      image: req.file.path
     });
 
 
