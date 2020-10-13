@@ -30,16 +30,30 @@ const getEventsByDate = async (req, res) => {
   const { date1 } = req.headers
 
   try {
-    const event = await Event.find({ date: req.headers.date1 })
-    if(event) {
-      return res.status(200).json({
-        success: true,
-        data: event
-      })
+    if(req.headers.date1 === "") {
+      const allevent = await Event.find({})
+      if (allevent) {
+        return res.status(200).json({
+          success: true,
+          data: allevent,
+        });
+      } else {
+        return res.status(404).json({
+          error: "no events found",
+        });
+      }
     } else {
-      return res.status(404).json({
-        error: "not found",
-      })
+      const event = await Event.find({ date: req.headers.date1 })
+      if(event) {
+        return res.status(200).json({
+          success: true,
+          data: event
+        })
+      } else {
+        return res.status(404).json({
+          error: "not found",
+        })
+      }
     }
   } catch (error) {
     return res.status(500).json({

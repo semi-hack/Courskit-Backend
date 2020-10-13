@@ -34,17 +34,29 @@ const createRoom = async (req, res) => {
 
 // get all rooms
 const GetAllRooms = async (req, res) => {
-  const rooms = await Room.find({});
-  if (rooms) {
-    return res.status(200).json({
-      success: true,
-      data: rooms,
+  try{
+    const { page, perPage } = req.query;
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10,
+    };
+    const rooms = await Room.paginate({}, options);
+    if (rooms) {
+      return res.status(200).json({
+        success: true,
+        data: rooms,
+      });
+    } else {
+      return res.status(404).json({
+        error: "no rooms found",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      error: "error",
+      success: false,
     });
-  } else {
-    return res.status(404).json({
-      error: "no rooms found",
-    });
-  }
+  } 
 };
 
 //update a room

@@ -315,29 +315,37 @@ const GetAllUsers = async (req, res) => {
 // Update User
 const UpdateUser = async (req, res) => {
   const { _id } = req.headers;
-  const UpdatedUser = await User.findByIdAndUpdate(
-    req.headers._id,
-    {
-      $set: req.body,
-    },
-    { new: true }
-  ).populate({
-    path: "courses",
-    populate: [
-      { path: "lecturer", model: "Lecturer" },
-      { path: "venue", model: "room" },
-    ],
-  });
-  if (!UpdatedUser) {
-    res.status(400).json({
-      message: "failed to update",
+  const existingUser = await User.findOne({ matric: req.body.matric }).exec();
+  if (existingUser) {
+    return res.status(401).json({
+      error: "account alrady exists",
+      success: false,
     });
   } else {
-    res.json({
-      success: true,
-      data: UpdatedUser,
+    const UpdatedUser = await User.findByIdAndUpdate(
+      req.headers._id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    ).populate({
+      path: "courses",
+      populate: [
+        { path: "lecturer", model: "Lecturer" },
+        { path: "venue", model: "room" },
+      ],
     });
-  }
+    if (!UpdatedUser) {
+      res.status(400).json({
+        message: "failed to update",
+      });
+    } else {
+      res.json({
+        success: true,
+        data: UpdatedUser,
+      });
+    }
+  }  
 };
 
 const combinedUpdate = async (req, res) => {
