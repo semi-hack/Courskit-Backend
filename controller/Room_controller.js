@@ -1,3 +1,4 @@
+const { query } = require("express");
 const express = require("express");
 const mongoose = require("mongoose");
 const { Room } = require("../models/room");
@@ -40,7 +41,9 @@ const GetAllRooms = async (req, res) => {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
     };
-    const rooms = await Room.paginate({ name: new RegExp(`^${searchQuery}`)}, options);
+    //{ name: new RegExp(`^${searchQuery}`)}
+    //let query = {$or:[{ name:  new RegExp(`^${searchQuery}`)}, {capacity: new RegExp(`^${searchQuery}`) }]}
+    const rooms = await Room.paginate({ name:  new RegExp(`^${searchQuery}`)}, options);
     if (rooms) {
       return res.status(200).json({
         success: true,

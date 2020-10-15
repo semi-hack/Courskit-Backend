@@ -59,12 +59,13 @@ const createCourse = async (req, res) => {
 
 // get all courses
 const GetAllCourses = async (req, res) => {
-  const { page, perPage } = req.query;
+  const { page, perPage, searchQuery } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
+    populate: [{path: "venue"}, {path: "lecturer"}]
   };
-  const courses = await Course.find({}).populate("venue").populate("lecturer");
+  const courses = await Course.paginate({}, options)
   if (courses) {
     return res.status(200).json({
       success: true,

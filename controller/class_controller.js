@@ -49,14 +49,14 @@ const createclass = async (req, res) => {
 };
 
 const getClass = async (req, res) => {
-  const { page, perPage } = req.query;
+  const { page, perPage, searchQuery } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
+    populate: [{path: "Courses"}, {path: "AcademicPeriod"}]
   };
-  const classes = await Klass.find({})
-    .populate("Courses")
-    .populate("AcademicPeriod");
+  const classes = await Klass.paginate({}, options)
+
   if (classes) {
     return res.status(200).json({
       success: true,

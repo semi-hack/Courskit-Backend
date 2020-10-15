@@ -292,13 +292,16 @@ const getUser = async (req, res) => {
 
 // get all courses
 const GetAllUsers = async (req, res) => {
-  const users = await User.find({}).populate({
-    path: "courses",
-    populate: [
+  const { page, perPage, searchQuery } = req.query;
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 10,
+    populate: [{ path: "courses", populate: [
       { path: "lecturer", model: "Lecturer" },
       { path: "venue", model: "room" },
-    ],
-  });
+    ]}]
+  }
+  const users = await User.paginate({}, options)
 
   if (users) {
     return res.status(200).json({
