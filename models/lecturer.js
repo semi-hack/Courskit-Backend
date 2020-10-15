@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const LecturerSchema = new Schema({
     name: {
@@ -40,6 +42,8 @@ const LecturerSchema = new Schema({
     },
     Courses: [{ type: Schema.Types.ObjectId, ref: 'Course', default: null }]
 })
+
+LecturerSchema.plugin(mongoosePaginate);
 
 const Lecturer = mongoose.model("Lecturer", LecturerSchema)
 

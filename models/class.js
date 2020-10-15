@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const ClassSchema = new Schema({
     name: {
@@ -23,6 +25,8 @@ const ClassSchema = new Schema({
         required: true
     }
 });
+
+ClassSchema.plugin(mongoosePaginate);
 
 const Klass = mongoose.model("Klass", ClassSchema)
 

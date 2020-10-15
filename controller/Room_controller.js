@@ -35,12 +35,12 @@ const createRoom = async (req, res) => {
 // get all rooms
 const GetAllRooms = async (req, res) => {
   try{
-    const { page, perPage } = req.query;
+    const { page, perPage, searchQuery } = req.query;
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
     };
-    const rooms = await Room.paginate({}, options);
+    const rooms = await Room.paginate({ name: new RegExp(`^${searchQuery}`)}, options);
     if (rooms) {
       return res.status(200).json({
         success: true,

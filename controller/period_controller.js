@@ -41,6 +41,11 @@ const createPeriod = async (req, res) => {
 
 const getAllPeriods = async (req, res) => {
   try {
+    const { page, perPage } = req.query;
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10,
+    };
     const data = await Period.find({}).populate('course');
     if (!data) {
       res.status(404).json({

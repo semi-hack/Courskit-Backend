@@ -49,6 +49,11 @@ const createclass = async (req, res) => {
 };
 
 const getClass = async (req, res) => {
+  const { page, perPage } = req.query;
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 10,
+  };
   const classes = await Klass.find({})
     .populate("Courses")
     .populate("AcademicPeriod");

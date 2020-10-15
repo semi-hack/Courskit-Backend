@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosastic = require('mongoosastic')
 const Schema = mongoose.Schema
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const colorValidator = (v) => (/^#([0-9a-f]{3}){1,2}$/i).test(v)
 
@@ -40,6 +42,7 @@ const CourseSchema = new Schema({
 })
 
 //CourseSchema.plugin(mongoosastic)
+CourseSchema.plugin(mongoosePaginate);
 
 CourseSchema.index({
     name: "text", code: "text"

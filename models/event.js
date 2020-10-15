@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const EventSchema = new Schema({
     user: [{  type: Schema.Types.ObjectId, ref: 'User' }],
@@ -15,6 +17,8 @@ const EventSchema = new Schema({
     }
 },
 )
+
+EventSchema.plugin(mongoosePaginate);
 
 const Event = mongoose.model('event', EventSchema);
 
