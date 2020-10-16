@@ -55,7 +55,7 @@ const getClass = async (req, res) => {
     limit: parseInt(perPage, 10) || 10,
     populate: [{path: "Courses"}, {path: "AcademicPeriod"}]
   };
-  const classes = await Klass.paginate({}, options)
+  const classes = await Klass.paginate({ name:  new RegExp(`^${searchQuery}`)}, options)
 
   if (classes) {
     return res.status(200).json({

@@ -51,7 +51,7 @@ const getAllLecturer = async (req, res) => {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
     };
-    const data = await Lecturer.paginate({}, options);
+    const data = await Lecturer.paginate({  name:  new RegExp(`^${searchQuery}`)}, options);
     if (!data) {
       res.status(404).json({
         success: false,
