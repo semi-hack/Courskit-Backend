@@ -35,6 +35,7 @@ router.patch('/Admin/lecturer/update', LecturerController.UpdateLecturer);
 router.delete('/Admin/lecturer/delete', LecturerController.Deletelecturer);
 router.route('/Admin/lecturer/image').post(parser.single('image'), LecturerController.createLecturer);
 router.route('/image').patch(parser.single('image'), LecturerController.UploadImage);
+router.route('/admin/v2/lecturer/update').patch(parser.single('image'), LecturerController.lecturerUpdate)
 
 
 router.post('/Admin/course', courseController.createCourse);
