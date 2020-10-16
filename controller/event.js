@@ -1,4 +1,5 @@
 const express = require("express");
+const { options } = require("mongoose");
 const mongoose = require("mongoose");
 const Event = require("../models/event");
 require("mongodb");
@@ -28,10 +29,15 @@ const createEvent = async (req, res) => {
 
 const getEventsByDate = async (req, res) => {
   const { date1 } = req.headers
+  const { page, perPage, searchQuery } = req.query;
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(perPage, 10) || 10,
+  };
 
   try {
     if(req.headers.date1 === "") {
-      const allevent = await Event.find({})
+      const allevent = await Event.paginate({name:  new RegExp(`^${searchQuery}`, "i")}, options)
       if (allevent) {
         return res.status(200).json({
           success: true,

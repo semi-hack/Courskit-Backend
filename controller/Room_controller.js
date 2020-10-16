@@ -43,7 +43,7 @@ const GetAllRooms = async (req, res) => {
     };
     //{ name: new RegExp(`^${searchQuery}`)}
     //let query = {$or:[{ name:  new RegExp(`^${searchQuery}`)}, {capacity: new RegExp(`^${searchQuery}`) }]}
-    const rooms = await Room.paginate({ name:  new RegExp(`^${searchQuery}`)}, options);
+    const rooms = await Room.paginate({ name:  new RegExp(`^${searchQuery}`, "i")}, options);
     if (rooms) {
       return res.status(200).json({
         success: true,

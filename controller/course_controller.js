@@ -65,7 +65,7 @@ const GetAllCourses = async (req, res) => {
     limit: parseInt(perPage, 10) || 10,
     populate: [{path: "venue"}, {path: "lecturer"}]
   };
-  const courses = await Course.paginate({ name:  new RegExp(`^${searchQuery}`)}, options)
+  const courses = await Course.paginate({ name:  new RegExp(`^${searchQuery}`, "i")}, options)
   if (courses) {
     return res.status(200).json({
       success: true,

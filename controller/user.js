@@ -301,7 +301,7 @@ const GetAllUsers = async (req, res) => {
       { path: "venue", model: "room" },
     ]}]
   }
-  const users = await User.paginate({ firstname:  new RegExp(`^${searchQuery}`)}, options)
+  const users = await User.paginate({ firstname:  new RegExp(`^${searchQuery}`, "i")}, options)
 
   if (users) {
     return res.status(200).json({

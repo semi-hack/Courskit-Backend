@@ -51,7 +51,7 @@ const getAllLecturer = async (req, res) => {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
     };
-    const data = await Lecturer.paginate({  name:  new RegExp(`^${searchQuery}`)}, options);
+    const data = await Lecturer.paginate({ name:  new RegExp(`^${searchQuery}`, "i")}, options);
     if (!data) {
       res.status(404).json({
         success: false,
@@ -131,6 +131,44 @@ const UploadImage = async (req, res) => {
   }
 };
 
+const lecturerUpdate = async (req, res) => {
+  const { _id } = req.headers;
+  const image = {};
+  console.log(req.body);
+
+  const CompleteUpdate = await Lecturer.findByIdAndUpdate(
+    req.headers._id,
+    {
+      $set: { 
+        "image" : req.file.path,
+        "name": req.body.name,
+        "email": req.body.email,
+        "unavailablePeriods": req.body.unavailablePeriods,
+        "courses": req.body.courses,
+        "education_bg": req.body.education_bg,
+        "phone_no": req.body.phone_no,
+        "office_no": req.body.office_no,
+        "ranking": req.body.ranking,
+        "degree": req.body.degree,
+        "areaOfSpec": req.body.areaOfSpec,
+     }
+    },
+    { new: true }
+  );
+
+  if (!CompleteUpdate) {
+    res.status(400).json({
+      message: "failed",
+    });
+  } else {
+    res.
+      json({
+        success: true,
+        data: CompleteUpdate,
+      });
+  }
+};
+
 // reset password lecturer
 const resetPasswordwithOldPassword = async (req, res) => {
   const { _id } = req.headers;
@@ -189,5 +227,6 @@ module.exports = {
   getLecturerById,
   UpdateLecturer,
   UploadImage,
+  lecturerUpdate,
   Deletelecturer,
 };
