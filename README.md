@@ -1,1 +1,1 @@
-# Timetable
+# CourseKit
