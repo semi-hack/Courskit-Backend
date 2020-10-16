@@ -143,8 +143,6 @@ const lecturerUpdate = async (req, res) => {
         "image" : req.file.path,
         "name": req.body.name,
         "email": req.body.email,
-        "unavailablePeriods": req.body.unavailablePeriods,
-        "courses": req.body.courses,
         "education_bg": req.body.education_bg,
         "phone_no": req.body.phone_no,
         "office_no": req.body.office_no,
