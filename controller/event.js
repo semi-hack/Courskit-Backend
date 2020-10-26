@@ -49,7 +49,7 @@ const getEventsByDate = async (req, res) => {
         });
       }
     } else {
-      const event = await Event.find({ date: req.headers.date1 })
+      const event = await Event.paginate({ date: req.headers.date1 }, options)
       if(event) {
         return res.status(200).json({
           success: true,
@@ -73,7 +73,7 @@ const updateEvent = async (req, res) => {
   const { _id } = req.headers
 
   const existingEvent = await Event.findOne({ _id: req.headers._id })
-  if (existingEvent) {
+  if (!existingEvent) {
     res.status(401).json({
       message: "already exists",
     });
