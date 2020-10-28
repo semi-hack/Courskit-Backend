@@ -42,6 +42,9 @@ router.post('/Admin/course', courseController.createCourse);
 router.get('/Admin/getCourse', courseController.GetAllCourses);
 router.patch('/Admin/course/update', courseController.UpdateCourse);
 router.delete('/Admin/course/delete', courseController.DeleteCourse);
+//mobile
+router.get('/Admin/v2/getCourse', courseController.GetCourseAll);
+//
 
 router.post('/Admin/period', periodController.createPeriod);
 router.get('/Admin/getPeriod', periodController.getAllPeriods);

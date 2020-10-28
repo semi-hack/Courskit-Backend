@@ -294,7 +294,7 @@ const getUser = async (req, res) => {
 
 // get all courses
 const GetAllUsers = async (req, res) => {
-  var myAggregate = User.aggregate([{$addFields:{ names : {$size: { "$ifNull": [ "$students", [] ] }}}}]);
+  //var myAggregate = User.aggregate([{$addFields:{ names : "$courses.name"}}]);
 
   const { page, perPage, searchQuery } = req.query;
   const options = {

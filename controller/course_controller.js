@@ -82,6 +82,23 @@ const GetAllCourses = async (req, res) => {
   }
 };
 
+// mobile get all courses
+const GetCourseAll = async (req, res) => {
+  const course = await Course.find({})
+    .populate("venue")
+    .populate("lecturer");
+  if (course) {
+    return res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } else {
+    return res.status(404).json({
+      error: "no course found",
+    });
+  }
+};
+
 // get course by id
 const GetCourseById = async (req, res) => {
   const { id } = req.body;
@@ -191,6 +208,7 @@ const DeleteCourse = async (req, res) => {
 module.exports = {
   createCourse,
   GetAllCourses,
+  GetCourseAll,
   GetCourseById,
   GetCourseByLevel,
   UpdateCourse,
