@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10
 const mongoosePaginate = require('mongoose-paginate-v2');
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 const UserSchema = new Schema({
     firstname: {
@@ -68,6 +69,7 @@ const NotificationSchema = new Schema({
     }
 })
 
+UserSchema.plugin(aggregatePaginate);
 UserSchema.plugin(mongoosePaginate);
 
 UserSchema.pre('save', async function save(next) {

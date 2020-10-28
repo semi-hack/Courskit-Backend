@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const mongoosastic = require('mongoosastic')
 const Schema = mongoose.Schema
 const mongoosePaginate = require('mongoose-paginate-v2');
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 
 const colorValidator = (v) => (/^#([0-9a-f]{3}){1,2}$/i).test(v)
@@ -33,7 +34,8 @@ const CourseSchema = new Schema({
         validator: [colorValidator, 'Invalid color'],
         required: true
     },
-    lecturer: {type: Schema.Types.ObjectId, ref: 'Lecturer' },
+    lecturer: [{type: Schema.Types.ObjectId, ref: 'Lecturer' }],
+    students: [{type: Schema.Types.ObjectId, ref: 'User'}],
     venue: {type: Schema.Types.ObjectId, ref: 'room'},
     time: {
         type: String,
@@ -42,6 +44,7 @@ const CourseSchema = new Schema({
 })
 
 //CourseSchema.plugin(mongoosastic)
+CourseSchema.plugin(aggregatePaginate);
 CourseSchema.plugin(mongoosePaginate);
 
 CourseSchema.index({

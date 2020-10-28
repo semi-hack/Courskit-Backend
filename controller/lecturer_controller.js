@@ -149,6 +149,7 @@ const lecturerUpdate = async (req, res) => {
         "ranking": req.body.ranking,
         "degree": req.body.degree,
         "areaOfSpec": req.body.areaOfSpec,
+        "Courses": req.body.Courses
      }
     },
     { new: true }

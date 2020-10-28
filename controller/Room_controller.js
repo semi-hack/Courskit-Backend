@@ -36,7 +36,23 @@ const createRoom = async (req, res) => {
 // get all rooms
 const GetAllRooms = async (req, res) => {
   try{
-    const { page, perPage, searchQuery } = req.query;
+    const { page, perPage, searchQuery, sort } = req.query;
+    let sortQuery = { }
+    switch (sort) {
+      case "name": {
+        sortQuery.name = 1;
+        break;
+      }
+
+      case "capacity": {
+        sortQuery.capacity = 1;
+        break;
+      }
+
+      default: {
+        sortQuery.name = 1;
+      }
+    }
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,

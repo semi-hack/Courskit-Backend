@@ -74,8 +74,8 @@ const updateEvent = async (req, res) => {
 
   const existingEvent = await Event.findOne({ _id: req.headers._id })
   if (!existingEvent) {
-    res.status(401).json({
-      message: "already exists",
+    res.status(400).json({
+      message: "doesnt exists",
     });
   } else {
     const updateEvent = await Event.findByIdAndUpdate(req.headers._id, {$set: req.body}, { new: true });

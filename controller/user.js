@@ -86,8 +86,10 @@ const signup = async (req, res) => {
 
 
     await user.save();
+    await Course.updateMany({ level: req.body.level }, { $push: { students: user}});
     global.io.emit("newUser", user);
     console.log("newUser", user)
+
 
     // pusher.trigger(
     //   "notifications",
@@ -292,6 +294,8 @@ const getUser = async (req, res) => {
 
 // get all courses
 const GetAllUsers = async (req, res) => {
+  var myAggregate = User.aggregate([{$addFields:{ names : {$size: { "$ifNull": [ "$students", [] ] }}}}]);
+
   const { page, perPage, searchQuery } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
@@ -413,6 +417,7 @@ const RegisterCourse = async (req, res) => {
       { path: "venue", model: "room" },
     ],
   });
+  
   if (!UpdatedUser) {
     res.status(400).json({
       message: "failed to update",

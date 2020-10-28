@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const generateColor = require("generate-color");
 const Course = require("../models/course");
+const User = require("../models/user");
+
+var myAggregate = Course.aggregate([{$addFields:{ number: {$size: { "$ifNull": [ "$students", [] ] }}}}]);
 
 // create a course
 const createCourse = async (req, res) => {
@@ -59,13 +62,14 @@ const createCourse = async (req, res) => {
 
 // get all courses
 const GetAllCourses = async (req, res) => {
+ 
   const { page, perPage, searchQuery } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
     populate: [{path: "venue"}, {path: "lecturer"}]
   };
-  const courses = await Course.paginate({ name:  new RegExp(`^${searchQuery}`, "i")}, options)
+  const courses = await Course.aggregatePaginate(myAggregate, { name:  new RegExp(`^${searchQuery}`, "i")}, options)
   if (courses) {
     return res.status(200).json({
       success: true,
