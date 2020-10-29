@@ -4,7 +4,7 @@ const generateColor = require("generate-color");
 const Course = require("../models/course");
 const User = require("../models/user");
 
-var myAggregate = Course.aggregate([{$addFields:{ number: {$size: { "$ifNull": [ "$students", [] ] }}}}]);
+var myAggregate = Course.aggregate([{$lookup: {from: "lecturers", localField: "lecturer", foreignField: "_id", as: "lecturer"}}, {$addFields:{ number: {$size: { "$ifNull": [ "$students", [] ] }}}}]);
 
 // create a course
 const createCourse = async (req, res) => {
@@ -60,6 +60,8 @@ const createCourse = async (req, res) => {
   }
 };
 
+// { name:  new RegExp(`^${searchQuery}`, "i")},
+
 // get all courses
 const GetAllCourses = async (req, res) => {
  
@@ -69,7 +71,7 @@ const GetAllCourses = async (req, res) => {
     limit: parseInt(perPage, 10) || 10,
     populate: [{path: "venue"}, {path: "lecturer"}]
   };
-  const courses = await Course.aggregatePaginate(myAggregate, { name:  new RegExp(`^${searchQuery}`, "i")}, options)
+  const courses = await Course.aggregatePaginate(myAggregate,  options)
   if (courses) {
     return res.status(200).json({
       success: true,
