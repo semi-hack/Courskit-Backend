@@ -12,6 +12,7 @@ const admin = require('../controller/admin');
 const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
+const timetable = require('../controller/timetable');
 
 
 router.get('/', (req, res) => {
@@ -93,6 +94,7 @@ router.get('/user/events/day', eventController.getEventsByDate);
 router.patch('/user/event/update', eventController.updateEvent);
 router.delete('/user/events/delete', eventController.deleteEvent);
 
-
+// Timetable
+router.post('/timetable', timetable.receivedata);
 
 module.exports = router

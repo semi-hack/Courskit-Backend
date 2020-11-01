@@ -131,6 +131,16 @@ const UploadImage = async (req, res) => {
   }
 };
 
+// "name": req.body.name,
+//         "email": req.body.email,
+//         "education_bg": req.body.education_bg,
+//         "phone_no": req.body.phone_no,
+//         "office_no": req.body.office_no,
+//         "ranking": req.body.ranking,
+//         "degree": req.body.degree,
+//         "areaOfSpec": req.body.areaOfSpec,
+//         "Courses": req.body.Courses
+
 const lecturerUpdate = async (req, res) => {
   const { _id } = req.headers;
   const image = {};
