@@ -39,7 +39,7 @@ const sendTimetabledata = async (req, res) => {
   // console.log(SUBJECT);
   // console.log(LT, NLT);
   // console.log(Professor);
-  const data = req.body
+  const data = req.body;
 
   async function makePostRequest() {
     let res = await axios.get(
@@ -49,18 +49,14 @@ const sendTimetabledata = async (req, res) => {
 
     console.log(res.data);
   }
-  
 
-    makePostRequest();
-  }
+  makePostRequest();
 };
 
 const receivedata = (req, res) => {
   const data = req.body;
   console.log(T);
-  res.status(200).json({
-
-  });
+  res.status(200).json({});
 };
 
 module.exports = { sendTimetabledata, receivedata };
