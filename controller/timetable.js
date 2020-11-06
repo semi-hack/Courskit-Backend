@@ -24,54 +24,43 @@ const { Room } = require("../models/room");
 //https://coursekit-timetable.herokuapp.com/generate/
 
 const sendTimetabledata = async (req, res) => {
-  const SUBJECT = await Course.aggregate([{ $project: { name: 1, _id: 0 } }]);
-  const LT = await Room.aggregate([
-    { $match: { type: "LT" } },
-    { $project: { name: 1, _id: 0 } },
-  ]);
-  const NLT = await Room.aggregate([
-    { $match: { type: "NLT" } },
-    { $project: { name: 1, _id: 0 } },
-  ]);
-  const Professor = await Lecturer.aggregate([
-    { $project: { name: 1, _id: 0 } },
-  ]);
-  console.log(SUBJECT);
-  console.log(LT, NLT);
-  console.log(Professor);
+  // const SUBJECT = await Course.aggregate([{ $project: { name: 1, _id: 0 } }]);
+  // const LT = await Room.aggregate([
+  //   { $match: { type: "LT" } },
+  //   { $project: { name: 1, _id: 0 } },
+  // ]);
+  // const NLT = await Room.aggregate([
+  //   { $match: { type: "NLT" } },
+  //   { $project: { name: 1, _id: 0 } },
+  // ]);
+  // const Professor = await Lecturer.aggregate([
+  //   { $project: { name: 1, _id: 0 } },
+  // ]);
+  // console.log(SUBJECT);
+  // console.log(LT, NLT);
+  // console.log(Professor);
+  const data = req.body
 
-  //console.log(classroom[i])
-  for (let i = 0; i < SUBJECT.length; i++) {
-    const data = {
-      classrooms: { A: LT, B: NLT },
+  async function makePostRequest() {
+    let res = await axios.get(
+      "https://coursekit-timetable.herokuapp.com/generate/",
+      data
+    );
 
-      classes: [
-        {
-          Length: "2",
-          AllowedClassrooms: "A",
-          Type: "Theory",
-          Subject: SUBJECT[i],
-        },
-      ],
-    };
-
-    async function makePostRequest() {
-      let res = await axios.get(
-        "https://coursekit-timetable.herokuapp.com/generate/",
-        data
-      );
-
-      console.log(res.data);
-    }
+    console.log(res.data);
+  }
+  
 
     makePostRequest();
   }
 };
 
 const receivedata = (req, res) => {
-  const T = req.body;
+  const data = req.body;
   console.log(T);
-  res.status(200);
+  res.status(200).json({
+
+  });
 };
 
 module.exports = { sendTimetabledata, receivedata };
