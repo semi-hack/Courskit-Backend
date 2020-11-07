@@ -12,7 +12,7 @@ const sendTimetabledata = async (req, res) => {
   console.log(data);
 
   const timetable = new Timetable({
-    timetable_id: req.body.timetable-id
+    Timetable_id: req.body.timetable-id
   })
 
   await timetable.save()
@@ -45,7 +45,7 @@ const receivedata = async (req, res) => {
   console.log(req.params.current_progress)
   console.log(data);
   
-  await Timetable.findOneAndUpdate({ timetable_id: req.params.timetable-id}, { 
+  await Timetable.findOneAndUpdate({ Timetable_id: req.params.timetable-id}, { 
     current_progress: req.params.current_progress,
     timetable_name :req.body.timetable-name,
     academic_section : req.body.academic-section,
