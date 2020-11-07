@@ -46,10 +46,10 @@ const receivedata = async (req, res) => {
   console.log(req.params.current_progress)
   console.log(data);
   
-  await Timetable.findOneAndUpdate({ uid: req.params.timetable-id}, { 
+  await Timetable.findOneAndUpdate({ uid: req.params.timetableId}, { 
     current_progress: req.params.current_progress,
-    name :req.body.timetable-name,
-    section : req.body.academic-section,
+    name :req.body.timetableName,
+    section : req.body.academicSection,
     courses : req.body.courses
    }, (err, timetable) => {
      if (err) {
@@ -63,7 +63,7 @@ const receivedata = async (req, res) => {
 };
 
 const progress = async (req, res) => {
-  const timetable = await Timetable.findOne({ uid: req.params.timetable-id})
+  const timetable = await Timetable.findOne({ uid: req.params.timetableId})
   if (!timetable) {
     return res.json({
       error: "error"
