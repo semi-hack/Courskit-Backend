@@ -43,10 +43,10 @@ const sendTimetabledata = async (req, res) => {
 const receivedata = async (req, res) => {
 
   const data = req.body;
-  console.log(req.params.current_progress)
+  console.log(req.query.current_progress)
   console.log(data);
   
-  await Timetable.findOneAndUpdate({ uid: req.params.timetableId}, { 
+  await Timetable.findOneAndUpdate({ uid: req.query.timetableId}, { 
     current_progress: req.params.current_progress,
     name : req.body.timetableName,
     session : req.body.academicSession,
