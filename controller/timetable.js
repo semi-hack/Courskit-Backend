@@ -4,10 +4,18 @@ const Course = require("../models/course");
 const Lecturer = require("../models/lecturer");
 const { Room } = require("../models/room");
 const { response } = require("express");
+const Timetable = require("../models/tinetable");
+const { error } = require("winston");
 
 const sendTimetabledata = async (req, res) => {
   const data = req.body;
   console.log(data);
+
+  const timetable = new Timetable({
+    timetable_id: req.body.timetable-id
+  })
+
+  await timetable.save()
 
   var config = {
     method: "get",
@@ -31,19 +39,41 @@ const sendTimetabledata = async (req, res) => {
     });
 };
 
-const receivedata = (req, res) => {
+const receivedata = async (req, res) => {
+
   const data = req.body;
+  console.log(req.params.current_progress)
   console.log(data);
   
-  res.status(200).json({
-    data: data
-  });
+  await Timetable.findOneAndUpdate({ timetable_id: req.params.timetable-id}, { 
+    current_progress: req.params.current_progress,
+    timetable_name :req.body.timetable-name,
+    academic_section : req.body.academic-section,
+    courses : req.body.courses
+   }, (err, timetable) => {
+     if (err) {
+       console.log(err)
+     } else
+     res.status(200).json({
+      data: timetable
+    });
+  })
+
 };
 
-// const progress = (req, res) => {
+const progress = async (req, res) => {
+  const timetable = await Timetable.findOne({ timetable_id: req.params.timetable-id})
+  if (!timetable) {
+    return res.json({
+      error: "error"
+    })
+  } else {
+    return res.json({
+      data: timetable
+    })
+  }
+}
 
-// }
-
-module.exports = { sendTimetabledata, receivedata };
+module.exports = { sendTimetabledata, receivedata, progress };
 
 
