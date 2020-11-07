@@ -8,14 +8,15 @@ const Timetable = require("../models/tinetable");
 const { error } = require("winston");
 
 const sendTimetabledata = async (req, res) => {
-  const data = req.body;
-  console.log(data);
+  console.log(req.body);
 
   const timetable = new Timetable({
-    Timetable_id: req.body.timetable-id
+    uid: req.body.timetable-name
   })
 
   await timetable.save()
+
+  const data = req.body
 
   var config = {
     method: "get",
@@ -45,10 +46,10 @@ const receivedata = async (req, res) => {
   console.log(req.params.current_progress)
   console.log(data);
   
-  await Timetable.findOneAndUpdate({ Timetable_id: req.params.timetable-id}, { 
+  await Timetable.findOneAndUpdate({ uid: req.params.timetable-id}, { 
     current_progress: req.params.current_progress,
-    timetable_name :req.body.timetable-name,
-    academic_section : req.body.academic-section,
+    name :req.body.timetable-name,
+    section : req.body.academic-section,
     courses : req.body.courses
    }, (err, timetable) => {
      if (err) {

@@ -6,13 +6,13 @@ const TimetableSchema = new Schema({
     courses: {
         type: Array
     },
-    timetable_name: {
+    name: {
         type: String
     },
-    academic_section: {
+    section: {
         type: String
     },
-    Timetable_id: {
+    uid: {
         type: String
     },
     current_progress: {
