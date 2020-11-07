@@ -9,7 +9,7 @@ const TimetableSchema = new Schema({
     name: {
         type: String
     },
-    section: {
+    session: {
         type: String
     },
     uid: {

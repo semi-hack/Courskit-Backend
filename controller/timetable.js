@@ -48,8 +48,8 @@ const receivedata = async (req, res) => {
   
   await Timetable.findOneAndUpdate({ uid: req.params.timetableId}, { 
     current_progress: req.params.current_progress,
-    name :req.body.timetableName,
-    section : req.body.academicSection,
+    name : req.body.timetableName,
+    session : req.body.academicSession,
     courses : req.body.courses
    }, (err, timetable) => {
      if (err) {
