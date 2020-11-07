@@ -33,8 +33,17 @@ const sendTimetabledata = async (req, res) => {
 
 const receivedata = (req, res) => {
   const data = req.body;
-  console.log(T);
-  res.status(200).json({});
+  console.log(data);
+  
+  res.status(200).json({
+    data: data
+  });
 };
 
+// const progress = (req, res) => {
+
+// }
+
 module.exports = { sendTimetabledata, receivedata };
+
+
