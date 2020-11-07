@@ -63,7 +63,7 @@ const receivedata = async (req, res) => {
 };
 
 const progress = async (req, res) => {
-  const timetable = await Timetable.findOne({ timetable_id: req.params.timetable-id})
+  const timetable = await Timetable.findOne({ uid: req.params.timetable-id})
   if (!timetable) {
     return res.json({
       error: "error"
