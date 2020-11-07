@@ -11,7 +11,7 @@ const sendTimetabledata = async (req, res) => {
   console.log(req.body);
 
   const timetable = new Timetable({
-    uid: req.body.timetable-name
+    uid: req.body.timetableId
   })
 
   await timetable.save()
