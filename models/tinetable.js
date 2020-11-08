@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const timetable = require('../controller/timetable');
 const Schema = mongoose.Schema;
 
 const TimetableSchema = new Schema({
