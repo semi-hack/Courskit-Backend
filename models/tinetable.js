@@ -19,8 +19,10 @@ const TimetableSchema = new Schema({
     },
     total_progress: {
         type: Number
-    }
-})
+    },
+},
+ { timestamps: true }
+)
 
 const Timetable = mongoose.model('timetable', TimetableSchema);
 
