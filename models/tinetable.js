@@ -16,6 +16,9 @@ const TimetableSchema = new Schema({
     },
     current_progress: {
         type: Number
+    },
+    total_progress: {
+        type: Number
     }
 })
 
