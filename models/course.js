@@ -39,7 +39,6 @@ const CourseSchema = new Schema({
     venue: {type: Schema.Types.ObjectId, ref: 'room'},
     time: {
         type: String,
-        required: true
     },
 })
 
