@@ -14,15 +14,12 @@ const ClassSchema = new Schema({
     },
     Meeting: {
         type: String,
-        required: true
     },
     Population: {
         type: Number,
-        required: true
     },
     UnavailableRooms: {
         type: String,
-        required: true
     }
 });
 

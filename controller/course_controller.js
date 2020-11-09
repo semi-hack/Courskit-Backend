@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const generateColor = require("generate-color");
 const Course = require("../models/course");
 const User = require("../models/user");
+const Lecturer = require('../models/lecturer');
 
 var myAggregate = Course.aggregate([{$lookup: {from: "lecturers", localField: "lecturer", foreignField: "_id", as: "lecturer"}}, {$addFields:{ number: {$size: { "$ifNull": [ "$students", [] ] }}}}]);
 
@@ -47,6 +48,10 @@ const createCourse = async (req, res) => {
     const data = await Course.findOne({ name: req.body.name }).populate(
       "lecturer"
     );
+
+    // await Lecturer.findByIdAndUpdate( req.body.lecturer , { 
+    //   $push: { Courses: req.body.lecturer }
+    // })
 
     return res.json({
       success: true,
@@ -152,6 +157,9 @@ const UpdateCourse = async (req, res) => {
       { $set: req.body },
       { new: true }
     );
+    await Lecturer.findByIdAndUpdate( req.body.lecturer , { 
+      $push: { Courses: req.headers._id }
+    })
     if (!UpdatedCourse) {
       res.status(400).json({
         message: "failed to update",
