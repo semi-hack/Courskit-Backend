@@ -8,10 +8,6 @@ const RoomSchema = new Schema({
         type: String,
         required: true
     },
-    type: {
-        type: String,
-        required: true
-    },
     capacity: {
         type: Number,
         required: true
