@@ -1,6 +1,6 @@
 const { Mongoose } = require('mongoose');
 const mongoose = require('mongoose');
-const URI = "mongodb+srv://admin:admin@cluster0-nncaq.mongodb.net/<dbname>?retryWrites=true&w=majority"
+const URI = "mongodb+srv://admin:admin@cluster0-nncaq.mongodb.net/coursekit?retryWrites=true&w=majority"
 
 const options = {
     useNewUrlParser: true,
