@@ -66,9 +66,7 @@ const signup = async (req, res) => {
         success: false,
       });
     }
-    const course = await Course.find({ level: req.body.level })
-      .populate("venue")
-      .populate("lecturer");
+    const course = await Course.find({ level: req.body.level }).populate("lecturer");
     console.log(course);
 
     const user = new User({

@@ -13,11 +13,14 @@ const user = require('../controller/user');
 const Lecturer = require('../models/lecturer');
 const { parser } = require('../middleware/upload');
 const timetable = require('../controller/timetable');
+const counts = require('../controller/counts');
 
 
 router.get('/', (req, res) => {
     res.send("welcome to home page");
 })
+//dashboard
+router.get('/admin/count', counts.result);
 
 //
 router.post('/admin/create', admin.signupAd);

@@ -73,7 +73,7 @@ const GetAllCourses = async (req, res) => {
   const { page, perPage, searchQuery } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 10,
+    limit: parseInt(perPage, 10) || 50,
     populate: [{path: "venue"}, {path: "lecturer"}]
   };
   const courses = await Course.aggregatePaginate(myAggregate,  options)

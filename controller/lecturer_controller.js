@@ -49,7 +49,7 @@ const getAllLecturer = async (req, res) => {
     const { page, perPage, searchQuery } = req.query;
     const options = {
       page: parseInt(page, 10) || 1,
-      limit: parseInt(perPage, 10) || 10,
+      limit: parseInt(perPage, 50) || 50,
       populate: [{path: 'Courses'}]
     };
     const data = await Lecturer.paginate({ name:  new RegExp(`^${searchQuery}`, "i")}, options);
