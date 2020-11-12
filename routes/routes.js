@@ -101,6 +101,7 @@ router.delete('/user/events/delete', eventController.deleteEvent);
 router.post('/timetable/new', timetable.sendTimetabledata);
 router.get('/timetable', timetable.receivedata);
 router.get('/timetable/generated', timetable.progress);
+router.get('/timetable/all', timetable.allTimetable);
 
 
 module.exports = router
